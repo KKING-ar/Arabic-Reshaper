@@ -9,7 +9,7 @@ A standalone, offline tool that reshapes and reverses Arabic and Persian text fo
 
 this video denominstrate how to use this app and its features, 
 
-https://youtu.be/ReUHWEvT3xU?si=TRiyOM8s-muaJ77a
+https://youtu.be/RramiEbmf-k?si=xl1170Dj6cbeVR9c
 
 the version used in this video is an early version pf the app, any future features added in update won't be here, they might get thier own videos IF it was advanced to use.
 
