@@ -5,6 +5,16 @@ A standalone, offline tool that reshapes and reverses Arabic and Persian text fo
 
 ---
 
+## a video demonstration
+
+this video denominstrate how to use this app and its features, 
+
+https://youtu.be/ReUHWEvT3xU?si=TRiyOM8s-muaJ77a
+
+the version used in this video is an early version pf the app, any future features added in update won't be here, they might get thier own videos IF it was advanced to use.
+
+---
+
 ## The Problem
 
 Arabic and Persian text injected directly into game assets appears **broken** — letters are disconnected and the string is rendered in the wrong direction. Game engines require pre-shaped, pre-reversed strings to display RTL text correctly through their own rendering system.
