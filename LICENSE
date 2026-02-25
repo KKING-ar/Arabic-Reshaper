@@ -1,21 +1,86 @@
 MIT License
 
-Copyright (c) 2026 KKING-ar
+================================================================
+        Arabic / Persian Text Shaper — اي حاكَة
+              License Agreement | اتفاقية الترخيص
+================================================================
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+────────────────────────────────────────────────────────────────
+  ENGLISH
+────────────────────────────────────────────────────────────────
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+MIT License
+Copyright (c) 2026 Anything | اي حاكَة
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software, to deal in the Software
+without restriction — including the rights to use, copy, modify,
+merge, publish, distribute, and sublicense — subject to the
+following conditions:
+
+  • This copyright notice must be included in all copies or
+    substantial portions of the Software.
+
+  • The software is provided "as is", without warranty of any
+    kind. The authors are not liable for any damages arising
+    from its use.
+
+This tool is free and open source. You may use it for personal,
+educational, or commercial game development projects at no cost.
+
+Third-party component:
+  Vazirmatn Font — Copyright (c) Saber Rastikerdar
+  Licensed under SIL Open Font License 1.1
+  https://scripts.sil.org/OFL
+
+
+────────────────────────────────────────────────────────────────
+  عربي
+────────────────────────────────────────────────────────────────
+
+رخصة MIT
+حقوق النشر © 2026 اي حاكَة | Anything
+
+يُمنح الإذن مجاناً لأي شخص يحصل على نسخة من هذا البرنامج،
+باستخدامه دون قيود — بما في ذلك حقوق الاستخدام والنسخ والتعديل
+والدمج والنشر والتوزيع والترخيص من الباطن — وذلك وفق الشروط التالية:
+
+  • يجب تضمين إشعار حقوق النشر هذا في جميع النسخ أو
+    الأجزاء الجوهرية من البرنامج.
+
+  • يُقدَّم البرنامج "كما هو" دون أي ضمان من أي نوع.
+    لا يتحمل المؤلفون أي مسؤولية عن أي أضرار ناجمة عن استخدامه.
+
+هذه الأداة مجانية ومفتوحة المصدر. يمكنك استخدامها في مشاريع
+التطوير الشخصية أو التعليمية أو التجارية بدون أي تكلفة.
+
+مكوّن طرف ثالث:
+  خط Vazirmatn — حقوق النشر © Saber Rastikerdar
+  مرخّص بموجب رخصة الخطوط المفتوحة SIL 1.1
+
+
+────────────────────────────────────────────────────────────────
+  فارسی
+────────────────────────────────────────────────────────────────
+
+مجوز MIT
+حق مؤلف © ۲۰۲۶ اي حاكَة | Anything
+
+بدین وسیله به هر شخصی که نسخه‌ای از این نرم‌افزار دریافت می‌کند،
+به‌صورت رایگان اجازه داده می‌شود بدون هیچ محدودیتی با آن کار کند —
+از جمله حق استفاده، کپی، تغییر، ادغام، انتشار، توزیع و صدور
+مجوز فرعی — مشروط به شرایط زیر:
+
+  • این اطلاعیه حق مؤلف باید در تمام نسخه‌ها یا
+    بخش‌های اساسی نرم‌افزار گنجانده شود.
+
+  • این نرم‌افزار "همان‌طور که هست" ارائه می‌شود، بدون
+    هیچ ضمانتی. نویسندگان هیچ مسئولیتی در قبال خسارات
+    ناشی از استفاده از آن ندارند.
+
+این ابزار رایگان و متن‌باز است. می‌توانید آن را برای پروژه‌های
+توسعه بازی شخصی، آموزشی یا تجاری بدون هیچ هزینه‌ای استفاده کنید.
+
+مؤلفه شخص ثالث:
+  فونت Vazirmatn — حق مؤلف © Saber Rastikerdar
+  دارای مجوز SIL Open Font License 1.1
