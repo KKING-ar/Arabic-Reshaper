@@ -45,14 +45,18 @@ That's it. No coding. No modifying game files.
 
 - **Live Arabic & Persian reshaping** — all 4 contextual letter forms (isolated, initial, medial, final)
 - **Full harakat support** — فَتْحَة، ضَمَّة، كَسْرَة، شَدَّة، تَنْوِين، سُكُون — diacritics stay correctly attached to their letters during reversal
+- **Harakat delay compensation (◌ً↑)** — shifts every diacritic one letter forward for game engines that render harakat one position early; a space is used as a landing spot (or inserted) when there's no following letter to advance onto
 - **Pixel-accurate line wrapping** — set your exact in-game box width and font size; lines break exactly as they will in the game
 - **Custom font support** — upload your game's `.ttf` / `.otf` font for perfectly matched line breaks
-- **Live preview** — see exactly how the text will render in-game, with alignment controls (Right / Center / Left)
+- **Live preview** — see exactly how the text will render in-game, with alignment controls (Right / Center / Left); width/height respected on both desktop and mobile
 - **Two-way editing** — paste a previously exported game string back and click **↑ Import** to recover the original editable Arabic text for re-editing
 - **Line order reversal** — ⇅ button to reverse line order for game engines that read lines bottom-up
 - **Persian support** — پ چ ژ گ ک ی fully supported with correct contextual shaping
 - **Built-in virtual keyboard** — insert Arabic/Persian letters and harakat without switching your system keyboard
-- **Bilingual UI** — English / عربي toggle
+- **Presets** — three renamable slots (P1/P2/P3) save your box width, font size, separator, and font name for instant switching between different in-game text boxes; export/import presets as a file to back up or share
+- **Per-line copy** — hover any line in the Lines or Flipped panels to copy just that line
+- **Minimizable panels** — collapse any panel you don't need open to save screen space
+- **Bilingual UI** — English / عربي toggle, including every button and field tooltip
 - **Fully offline** — works with no internet connection; font is embedded in the app
 
 ---
@@ -78,6 +82,21 @@ That's it. No coding. No modifying game files.
 | **Separator** | Character between lines in combined output (default `\n`) |
 | **Font File** | Upload your game font for pixel-perfect wrapping |
 | **⇅** | Reverse line order (for bottom-up reading systems) |
+| **◌ً↑** | Advance harakat one letter forward, for engines that render diacritics one position early. Applies to the Lines, Flipped, and Combined panels — the Preview is unaffected |
+
+---
+
+## Presets
+
+Three renamable slots (**P1 / P2 / P3**) store your box width, font size, separator, and font file name so you can switch between different game text boxes instantly.
+
+- **Load** — click a preset button to load it (highlights green)
+- **Save 💾** — select a preset, then click Save to overwrite it with your current settings
+- **Rename ✎** — click the pencil icon next to a preset to rename it
+- **Export ↓** — downloads all three presets as a file you can back up or share
+- **Import ↑** — loads presets from a previously exported file
+
+*Note: if a preset was saved with a custom font that isn't currently uploaded, a warning appears when you load it.*
 
 ---
 
@@ -109,6 +128,8 @@ Other tools are either outdated, online-only, or simply not good enough:
 - Cluster-aware reversal — harakat/diacritics stay attached to their base letter during string flip
 - Tatweel (ـ) correctly handled as a connector, not a diacritic
 - Hamza on Ya (ئ) correctly handled as a 4-form connector letter
+- Harakat-advance uses a token-barrier model: letters and spaces are valid landing spots for a shifted diacritic, other punctuation acts as a hard barrier; a space is inserted if a shifted diacritic would otherwise fall off the end of the text
+- Mobile-responsive layout — the live preview box always honors your chosen pixel width on phones, capped only to avoid overflowing the screen
 - Font: [Vazirmatn](https://github.com/rastikerdar/vazirmatn) — embedded, open source (OFL 1.1)
 
 ---
