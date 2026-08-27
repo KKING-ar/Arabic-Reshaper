@@ -94,6 +94,92 @@
     padding: 4px 8px; border-radius: 2px; width: 100px; outline: none;
   }
   .cg input:focus { border-color: var(--accent); }
+  /* ── Image ruler ── */
+  .ruler-panel {
+    border: 1px solid var(--border); border-radius: 2px;
+    background: var(--panel);
+  }
+  .ruler-header {
+    padding: 6px 12px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; color: var(--muted); font-size: 0.87rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .ruler-header .tag { letter-spacing: 0.04em; text-transform: none; }
+  .ruler-body { padding: 10px 12px 12px; }
+  .ruler-body.minimized { display: none; }
+  .ruler-toolbar, .ruler-actions, .ruler-measurements {
+    display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+  }
+  .ruler-toolbar { margin-bottom: 9px; }
+  .ruler-zoom { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+  .ruler-zoom-label { color: var(--muted); font-size: 0.75rem; }
+  .ruler-zoom-value { color: var(--accent2); font: 0.75rem 'IBM Plex Mono', monospace; min-width: 38px; text-align: center; }
+  .ruler-zoom-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--muted);
+    font: 600 0.9rem 'IBM Plex Mono', monospace; width: 25px; height: 25px;
+    border-radius: 2px; cursor: pointer; line-height: 1;
+  }
+  .ruler-zoom-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .ruler-help {
+    color: var(--muted); font-size: 0.78rem; line-height: 1.5;
+    margin: 0 0 9px;
+  }
+  .ruler-empty {
+    border: 1px dashed var(--border); color: var(--muted);
+    min-height: 84px; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 12px; font-size: 0.85rem;
+  }
+  .ruler-empty.drag-over, .ruler-viewport.drag-over, .font-manager.drag-over {
+    border-color: var(--accent); background: #19170f; color: var(--accent);
+  }
+  .ruler-viewport {
+    overflow: auto; border: 1px solid var(--border); cursor: grab;
+    background: #080808; padding: 0;
+    box-sizing: border-box; display: block;
+  }
+  .ruler-canvas {
+    position: relative; display: inline-block;
+    line-height: 0; background: #080808;
+  }
+  #ruler-image { display: block; max-width: none; max-height: none; height: auto; transform-origin: top left; }
+  .ruler-selection {
+    position: absolute; box-sizing: border-box; border: 2px solid var(--accent);
+    background: rgba(224, 178, 90, 0.12); cursor: move; min-width: 10px; min-height: 4px;
+  }
+  .ruler-selection:focus { outline: 2px solid var(--accent2); outline-offset: 2px; }
+  .ruler-selection::before, .ruler-selection::after {
+    content: ''; position: absolute; background: var(--accent); pointer-events: none;
+  }
+  .ruler-selection::before { left: 0; right: 0; bottom: -7px; height: 1px; }
+  .ruler-selection::after { top: 0; bottom: 0; right: -7px; width: 1px; }
+  .ruler-label {
+    position: absolute; background: #111; border: 1px solid var(--accent);
+    color: var(--accent); font: 600 11px 'IBM Plex Mono', monospace;
+    line-height: 1; padding: 3px 5px; white-space: nowrap; pointer-events: none;
+  }
+  .ruler-width-label { left: 50%; bottom: -25px; transform: translateX(-50%); }
+  .ruler-height-label { right: -55px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+  .ruler-handle {
+    position: absolute; width: 10px; height: 10px; background: var(--accent);
+    border: 1px solid #111; box-sizing: border-box; z-index: 2;
+  }
+  .ruler-handle.br { right: -6px; bottom: -6px; cursor: nwse-resize; }
+  .ruler-measurements { margin-top: 30px; }
+  .ruler-measurements label {
+    color: var(--muted); font-size: 0.75rem; letter-spacing: 0.06em;
+  }
+  .ruler-measurements input {
+    width: 78px; background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); font: 1rem 'Vazirmatn', sans-serif;
+    padding: 3px 6px; border-radius: 2px; outline: none;
+  }
+  .ruler-measurements input:focus { border-color: var(--accent); }
+  .ruler-status { color: var(--accent2); font-size: 0.78rem; margin-left: auto; }
+  .ruler-actions { margin-top: 9px; }
+  .ruler-actions .preset-save-btn:disabled {
+    opacity: 0.4; cursor: not-allowed; border-color: var(--border); color: var(--muted);
+  }
   /* #separator is a <textarea> (not <input>) so it can hold a real newline
      character — plain text inputs strip \r/\n from their value on every
      browser, so Enter could never produce an actual line-break separator. */
@@ -112,6 +198,26 @@
   }
   .font-label:hover { border-color: var(--accent); color: var(--accent); }
   #font-name { font-size: 0.93rem; color: var(--accent2); }
+  .font-manager { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .font-list { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; max-width: 430px; }
+  .font-list-empty { color: var(--muted); font-size: 0.78rem; }
+  .font-manager { border: 1px dashed transparent; border-radius: 2px; padding: 2px; transition: all 0.13s; }
+  .font-chip-wrap { display: inline-flex; align-items: stretch; }
+  .font-chip {
+    background: var(--bg); border: 1px solid var(--border); color: var(--muted);
+    font-family: 'Vazirmatn', sans-serif; font-size: 0.78rem;
+    padding: 3px 7px; border-radius: 2px; cursor: pointer;
+    max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    transition: all 0.13s;
+  }
+  .font-chip:hover { border-color: var(--accent2); color: var(--accent2); }
+  .font-chip.active { border-color: var(--accent); color: var(--accent); background: #0f1f0f; }
+  .font-remove {
+    background: var(--bg); border: 1px solid var(--border); border-left: none;
+    color: var(--muted); font-size: 0.68rem; padding: 0 4px; cursor: pointer;
+    border-radius: 0 2px 2px 0;
+  }
+  .font-remove:hover { color: #e07070; border-color: #7a3030; }
   /* ── Panels ── */
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .panel { border: 1px solid var(--border); border-radius: 2px; overflow: hidden; background: var(--panel); }
@@ -155,6 +261,12 @@
   }
   .btn-copy-main:hover { border-color: var(--accent); color: var(--accent); }
   .btn-copy-main.copied { border-color: var(--success) !important; color: var(--success) !important; }
+  .multi-string-btn.active-green {
+    border-color: #4caf50; color: #6ec87e; background: #102010;
+  }
+  .multi-string-btn.active-green:hover {
+    border-color: #6ec87e; color: #8ee89a;
+  }
   /* ── Preview ── */
   .preview-section { border: 1px solid var(--border); border-radius: 2px; overflow: hidden; background: var(--panel); }
   .preview-toolbar {
@@ -235,6 +347,7 @@
     font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em;
     color: var(--muted); white-space: nowrap; flex-shrink: 0;
   }
+  .preset-slots { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .preset-slot { display: flex; align-items: center; gap: 1px; }
   .preset-btn {
     background: var(--bg); border: 1px solid var(--border); color: var(--muted);
@@ -262,6 +375,21 @@
     padding: 2px 8px; border-radius: 2px; cursor: pointer; transition: all 0.13s;
   }
   .preset-io-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .preset-delete-btn {
+    background: transparent; border: 1px solid #5a2020; color: #c06060;
+    font-family: 'Vazirmatn', sans-serif; font-size: 0.8rem;
+    padding: 2px 8px; border-radius: 2px; cursor: pointer; transition: all 0.13s;
+  }
+  .preset-delete-btn:hover { border-color: #e07070; color: #e07070; background: #241212; }
+  .preset-delete-btn.active { border-color: #e07070; color: #f09090; background: #241212; }
+  .preset-btn.delete-target { border-color: #a04040; color: #f09090; background: #241212; }
+  .preset-btn.delete-target:hover { border-color: #ff9090; color: #ffb0b0; }
+  .preset-add-btn {
+    background: transparent; border: 1px dashed var(--border); color: var(--muted);
+    font-family: 'Vazirmatn', sans-serif; font-size: 0.8rem;
+    padding: 2px 8px; border-radius: 2px; cursor: pointer; transition: all 0.13s;
+  }
+  .preset-add-btn:hover { border-color: var(--accent2); color: var(--accent2); }
   /* ── Mobile scaling ── */
   @media (max-width: 768px) {
     body { font-size: 11px; }
@@ -274,11 +402,14 @@
     .brand-channel { font-size: 0.65rem; }
     .controls { gap: 10px; padding: 9px 12px; }
     .cg input[type=number], .cg input[type=text] { width: 80px; font-size: 0.72rem; }
+    .font-list { max-width: 100%; }
     .row { grid-template-columns: 1fr; }
     #input, .lines-display { height: 120px; }
     .preview-outer { padding: 12px 12px 32px; }
-    #preview-container { max-width: 100%; }
+    #preview-container { width: 100% !important; }
     .size-controls { display: none; }
+    .ruler-status { margin-left: 0; width: 100%; }
+    .ruler-help { font-size: 0.75rem; }
     .footer { padding: 12px 12px 28px; }
 
     /* Keyboard: stack below input row, full width */
@@ -455,6 +586,63 @@
     <p id="h-sub">Live reshape — copy output directly into UABE</p>
   </div>
 
+  <!-- Image ruler -->
+  <div class="ruler-panel">
+    <div class="ruler-header">
+      <span id="ruler-title">Image Ruler <span class="tag">measure a text box</span></span>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span id="ruler-preset-status" class="ruler-status">Use once applies measurements without saving them</span>
+        <button class="panel-minimize-btn" onclick="toggleMinimize('ruler-body',this)" title="Minimize">▾</button>
+      </div>
+    </div>
+    <div class="ruler-body" id="ruler-body">
+      <p class="ruler-help" id="ruler-help">Upload or drop a screenshot, then drag the highlighted box over the text. Use zoom for detailed pixel work, arrow keys to move it, and Ctrl/Cmd + arrows to resize it. Width is the box width; height is used as the font size.</p>
+      <div class="ruler-toolbar">
+        <label class="font-label" for="ruler-image-file" id="ruler-upload-label">Upload image</label>
+        <input type="file" id="ruler-image-file" accept="image/*" style="display:none" onchange="loadRulerImage(this)">
+        <button class="btn-copy-main" id="ruler-clear-btn" onclick="clearRulerImage()">✕ Clear</button>
+        <div class="ruler-zoom" aria-label="Ruler zoom controls">
+          <span class="ruler-zoom-label">Zoom</span>
+          <button class="ruler-zoom-btn" type="button" onclick="changeRulerZoom(-1)" title="Zoom out">−</button>
+          <span class="ruler-zoom-value" id="ruler-zoom-value">100%</span>
+          <button class="ruler-zoom-btn" type="button" onclick="changeRulerZoom(1)" title="Zoom in">＋</button>
+          <button class="ruler-zoom-btn" type="button" onclick="resetRulerZoom()" title="Reset zoom">1:1</button>
+        </div>
+      </div>
+      <div class="ruler-empty" id="ruler-empty"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="handleRulerDrop(event)">Upload or drop an image to begin measuring.</div>
+      <div class="ruler-viewport" id="ruler-viewport" style="display:none"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="handleRulerDrop(event)"
+           oncontextmenu="event.preventDefault()"
+           onmousedown="startViewportPan(event)">
+        <div class="ruler-canvas" id="ruler-canvas">
+          <img id="ruler-image" alt="Image used for pixel measurement">
+          <div class="ruler-selection" id="ruler-selection" tabindex="0"
+               onpointerdown="startRulerDrag(event,'move')"
+               onkeydown="handleRulerKeydown(event)">
+            <span class="ruler-label ruler-width-label" id="ruler-width-label">W 400 px</span>
+            <span class="ruler-label ruler-height-label" id="ruler-height-label">FS 16 px</span>
+            <span class="ruler-handle br" onpointerdown="startRulerDrag(event,'resize')"></span>
+          </div>
+        </div>
+      </div>
+      <div class="ruler-measurements">
+        <label for="ruler-width-input" id="ruler-width-label-text">Box width (X)</label>
+        <input type="number" id="ruler-width-input" min="10" value="400" oninput="editRulerMeasurement('width',this.value)">
+        <label for="ruler-font-input" id="ruler-font-label-text">Font size (Y)</label>
+        <input type="number" id="ruler-font-input" min="1" value="16" oninput="editRulerMeasurement('height',this.value)">
+      </div>
+      <div class="ruler-actions">
+        <button class="preset-save-btn" id="ruler-use-btn" onclick="useRulerMeasurement()">📐 Use once</button>
+        <button class="preset-save-btn" id="ruler-new-btn" onclick="makePresetFromRuler()">Make new preset</button>
+      </div>
+    </div>
+  </div>
+
   <div class="controls">
     <div class="cg">
       <label id="lbl-width">Box width (px)</label>
@@ -467,18 +655,21 @@
     <div class="cg">
       <label id="lbl-sep">Separator</label>
       <div style="display:flex;align-items:center;gap:6px;">
-        <textarea id="separator" rows="1" oninput="process()" title="Type any text, or press Enter to use a real line break as the separator" data-title-en="Type any text, or press Enter to use a real line break as the separator" data-title-ar="اكتب أي نص، أو اضغط Enter لاستخدام فاصل أسطر حقيقي">\n</textarea>
+        <textarea id="separator" rows="1" oninput="process()" title="Type any text, or press Enter to use a real line break as the separator">\n</textarea>
         <button class="help-btn" onclick="document.getElementById('help-overlay').classList.add('open')" title="Help / شرح">?</button>
-        <button class="help-btn" id="reverseOrderBtn" onclick="toggleReverseOrder()" title="Reverse line order" data-title-en="Reverse line order" data-title-ar="عكس ترتيب الأسطر" style="font-size:1rem;">⇅</button>
-        <button class="help-btn" id="advHarakatBtn" onclick="toggleAdvanceHarakat()" title="Advance harakat one letter forward in Lines/Flipped/Combined (for games that delay diacritics by one position)" style="font-family:'Vazirmatn',sans-serif;font-size:0.85rem;letter-spacing:-0.02em;">◌ً↑</button>
+        <button class="help-btn" id="reverseOrderBtn" onclick="toggleReverseOrder()" title="Reverse line order" style="font-size:1rem;">⇅</button>
+        <button class="help-btn" id="advHarakatBtn" onclick="toggleAdvanceHarakat()" title="Advance harakat one letter forward (for games that delay diacritics by one position)" style="font-family:'Vazirmatn',sans-serif;font-size:0.85rem;letter-spacing:-0.02em;">◌ً↑</button>
       </div>
     </div>
     <div class="cg">
-      <label id="lbl-font">Font file</label>
-      <div style="display:flex;align-items:center;gap:7px;">
-        <label class="font-label" for="fontFile" id="lbl-upload">Upload .ttf</label>
-        <input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2" style="display:none">
-        <span id="font-name">Vazirmatn</span>
+      <label id="lbl-font">Loaded fonts</label>
+      <div class="font-manager"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="handleFontDrop(event)">
+        <div class="font-list" id="font-list"></div>
+        <label class="font-label" for="fontFile" id="lbl-upload">Add fonts</label>
+        <input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2" multiple style="display:none">
       </div>
     </div>
   </div>
@@ -486,21 +677,12 @@
   <!-- Presets bar -->
   <div class="presets-bar">
     <span class="presets-bar-label" id="presets-bar-label">Presets</span>
-    <span class="preset-slot">
-      <button class="preset-btn" id="preset-btn-0" onclick="loadPreset(0)">P1</button>
-      <button class="preset-rename-btn" id="preset-rename-btn-0" onclick="renamePreset(0)" title="Rename preset">✎</button>
-    </span>
-    <span class="preset-slot">
-      <button class="preset-btn" id="preset-btn-1" onclick="loadPreset(1)">P2</button>
-      <button class="preset-rename-btn" id="preset-rename-btn-1" onclick="renamePreset(1)" title="Rename preset">✎</button>
-    </span>
-    <span class="preset-slot">
-      <button class="preset-btn" id="preset-btn-2" onclick="loadPreset(2)">P3</button>
-      <button class="preset-rename-btn" id="preset-rename-btn-2" onclick="renamePreset(2)" title="Rename preset">✎</button>
-    </span>
-    <button class="preset-save-btn" id="presets-save-btn" onclick="savePreset()" title="Save current settings to active preset" data-title-en="Save current settings to active preset" data-title-ar="حفظ الإعدادات الحالية في القالب النشط">💾 Save</button>
-    <button class="preset-io-btn" id="presets-export-btn" onclick="exportPresets()" title="Export presets to file" data-title-en="Export presets to file" data-title-ar="تصدير القوالب إلى ملف">↓ Export</button>
-    <button class="preset-io-btn" id="presets-import-btn" onclick="document.getElementById('preset-import-file').click()" title="Import presets from file" data-title-en="Import presets from file" data-title-ar="استيراد القوالب من ملف">↑ Import</button>
+    <div class="preset-slots" id="preset-slots"></div>
+    <button class="preset-add-btn" id="preset-add-btn" onclick="addPreset()" title="Add preset">＋ Add</button>
+    <button class="preset-save-btn" id="presets-save-btn" onclick="savePreset()" title="Save current settings to active preset">💾 Save</button>
+    <button class="preset-delete-btn" id="presets-delete-btn" onclick="togglePresetDeleteMode()" title="Choose a preset to delete">🗑 Delete</button>
+    <button class="preset-io-btn" id="presets-export-btn" onclick="exportPresets()" title="Export presets to file">↓ Export</button>
+    <button class="preset-io-btn" id="presets-import-btn" onclick="document.getElementById('preset-import-file').click()" title="Import presets from file">↑ Import</button>
     <input type="file" id="preset-import-file" accept=".txt,.json" style="display:none" onchange="importPresets(this)">
   </div>
 
@@ -510,7 +692,7 @@
       <div class="panel-header">
         <span id="ph-input">Input <span class="tag">raw arabic / persian</span></span>
         <div style="display:flex;align-items:center;gap:5px;">
-          <button class="btn-copy-main" id="clearBtn" onclick="clearInput()" style="border-color:#5a2020;color:#c06060;" title="Clear input" data-title-en="Clear input" data-title-ar="مسح المُدخل">✕ Clear</button>
+          <button class="btn-copy-main" id="clearBtn" onclick="clearInput()" style="border-color:#5a2020;color:#c06060;" title="Clear input">✕ Clear</button>
           <button class="panel-minimize-btn" onclick="toggleMinimize('pb-input',this)" title="Minimize">▾</button>
         </div>
       </div>
@@ -534,16 +716,16 @@
   </div><!-- close row -->
 
     <!-- Letter keyboard toggle button -->
-    <button class="kb-toggle" id="kb-toggle-btn" onclick="toggleKb()" title="Toggle keyboard" data-title-en="Toggle keyboard" data-title-ar="إظهار/إخفاء لوحة المفاتيح"><span id="kb-toggle-icon">⌨</span> <span id="kb-toggle-label">Show Keyboard</span></button>
+    <button class="kb-toggle" id="kb-toggle-btn" onclick="toggleKb()" title="Toggle keyboard"><span id="kb-toggle-icon">⌨</span> <span id="kb-toggle-label">Show Keyboard</span></button>
     <div class="kb-panel hidden" id="kb-panel">
       <div class="kb-section-label" id="kb-label-persian">Persian / فارسی</div>
       <div class="kb-row">
-        <button class="kb-btn persian" onclick="insertLetter('پ')" title="pe" data-title-en="pe" data-title-ar="په">پ</button>
-        <button class="kb-btn persian" onclick="insertLetter('چ')" title="che" data-title-en="che" data-title-ar="چه">چ</button>
-        <button class="kb-btn persian" onclick="insertLetter('ژ')" title="zhe" data-title-en="zhe" data-title-ar="ژه">ژ</button>
-        <button class="kb-btn persian" onclick="insertLetter('گ')" title="gaf" data-title-en="gaf" data-title-ar="گاف">گ</button>
-        <button class="kb-btn persian" onclick="insertLetter('ک')" title="kaf" data-title-en="kaf" data-title-ar="کاف فارسي">ک</button>
-        <button class="kb-btn persian" onclick="insertLetter('ی')" title="ye" data-title-en="ye" data-title-ar="یه">ی</button>
+        <button class="kb-btn persian" onclick="insertLetter('پ')" title="pe">پ</button>
+        <button class="kb-btn persian" onclick="insertLetter('چ')" title="che">چ</button>
+        <button class="kb-btn persian" onclick="insertLetter('ژ')" title="zhe">ژ</button>
+        <button class="kb-btn persian" onclick="insertLetter('گ')" title="gaf">گ</button>
+        <button class="kb-btn persian" onclick="insertLetter('ک')" title="kaf">ک</button>
+        <button class="kb-btn persian" onclick="insertLetter('ی')" title="ye">ی</button>
       </div>
       <div class="kb-section-label" id="kb-label-arabic">Arabic / عربي</div>
       <div class="kb-row">
@@ -594,14 +776,14 @@
       </div>
       <div class="kb-section-label" id="kb-label-harakat">Harakat / حركات</div>
       <div class="kb-row">
-        <button class="kb-btn" onclick="insertLetter('َ')" title="fatha" data-title-en="fatha" data-title-ar="فتحة">فَ</button>
-        <button class="kb-btn" onclick="insertLetter('ُ')" title="damma" data-title-en="damma" data-title-ar="ضمة">فُ</button>
-        <button class="kb-btn" onclick="insertLetter('ِ')" title="kasra" data-title-en="kasra" data-title-ar="كسرة">فِ</button>
-        <button class="kb-btn" onclick="insertLetter('ّ')" title="shadda" data-title-en="shadda" data-title-ar="شدة">فّ</button>
-        <button class="kb-btn" onclick="insertLetter('ْ')" title="sukun" data-title-en="sukun" data-title-ar="سكون">فْ</button>
-        <button class="kb-btn" onclick="insertLetter('ً')" title="tanwin fath" data-title-en="tanwin fath" data-title-ar="تنوين فتح">فً</button>
-        <button class="kb-btn" onclick="insertLetter('ٌ')" title="tanwin damm" data-title-en="tanwin damm" data-title-ar="تنوين ضم">فٌ</button>
-        <button class="kb-btn" onclick="insertLetter('ٍ')" title="tanwin kasr" data-title-en="tanwin kasr" data-title-ar="تنوين كسر">فٍ</button>
+        <button class="kb-btn" onclick="insertLetter('َ')" title="fatha">فَ</button>
+        <button class="kb-btn" onclick="insertLetter('ُ')" title="damma">فُ</button>
+        <button class="kb-btn" onclick="insertLetter('ِ')" title="kasra">فِ</button>
+        <button class="kb-btn" onclick="insertLetter('ّ')" title="shadda">فّ</button>
+        <button class="kb-btn" onclick="insertLetter('ْ')" title="sukun">فْ</button>
+        <button class="kb-btn" onclick="insertLetter('ً')" title="tanwin fath">فً</button>
+        <button class="kb-btn" onclick="insertLetter('ٌ')" title="tanwin damm">فٌ</button>
+        <button class="kb-btn" onclick="insertLetter('ٍ')" title="tanwin kasr">فٍ</button>
       </div>
     </div><!-- close kb-panel -->
   </div><!-- close kb-wrap -->
@@ -623,7 +805,8 @@
     <div class="panel-header">
       <span id="ph-combined">Combined <span class="tag">paste into uabe</span></span>
       <div style="display:flex;gap:5px;align-items:center;">
-        <button class="btn-copy-main" id="importBtn" onclick="importCombined()" style="border-color:#3a4a3a;color:#6ec87e;" title="Paste game text here to edit it" data-title-en="Paste game text here to edit it" data-title-ar="الصق نص اللعبة هنا لتعديله">↑ Import</button>
+        <button class="btn-copy-main multi-string-btn" id="multiStringBtn" onclick="toggleMultiString()" title="Treat each input line as a separate string">🔀 Multi-string: OFF</button>
+        <button class="btn-copy-main" id="importBtn" onclick="importCombined()" style="border-color:#3a4a3a;color:#6ec87e;" title="Paste game text here to edit it">↑ Import</button>
         <button class="btn-copy-main" id="copyBtn" onclick="copyOutput()">Copy</button>
         <button class="panel-minimize-btn" onclick="toggleMinimize('pb-combined',this)" title="Minimize">▾</button>
       </div>
@@ -646,8 +829,8 @@
         <input type="number" id="previewW" value="400" oninput="resizePreview()">
         <label>H</label>
         <input type="number" id="previewH" value="160" oninput="resizePreview()">
-        <label id="lbl-preview-fs" title="Preview font size (px)" data-title-en="Preview font size (px)" data-title-ar="حجم الخط في المعاينة (بكسل)">FS</label>
-        <input type="number" id="previewFS" value="16" min="6" max="120" style="width:46px" oninput="syncFontSizeFromPreview(this.value)" title="Preview font size (px)" data-title-en="Preview font size (px)" data-title-ar="حجم الخط في المعاينة (بكسل)">
+        <label id="lbl-preview-fs" title="Preview font size (px)">FS</label>
+        <input type="number" id="previewFS" value="16" min="6" max="120" style="width:46px" oninput="syncFontSizeFromPreview(this.value)" title="Preview font size (px)">
       </div>
       <button class="panel-minimize-btn" onclick="toggleMinimize('pb-preview',this)" title="Minimize" style="margin-left:4px;">▾</button>
     </div>
@@ -669,7 +852,7 @@
 <!-- Footer -->
 <div class="footer">
   <div class="footer-label">تابع قناة <span>اي حاكَة</span></div>
-  <div style="font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:2px;">v2.1.0</div>
+  <div style="font-size:0.72rem;color:var(--muted);letter-spacing:0.08em;margin-bottom:2px;">v3.1.0</div>
   <div class="socials">
     <a class="social-link tg" href="https://t.me/mut3a_4_u" target="_blank">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
@@ -697,7 +880,7 @@
 const translations={
   en:{
     'lbl-width':'Box width (px)','lbl-size':'Font size (px)','lbl-sep':'Separator',
-    'lbl-font':'Font file','lbl-upload':'Upload .ttf',
+    'lbl-font':'Loaded fonts','lbl-upload':'Add fonts',
     'h-title':'Arabic Game Text Shaper',
     'h-sub':'Live reshape — copy output directly into UABE',
     'ph-input':'Input <span class="tag">raw arabic</span>',
@@ -713,14 +896,22 @@ const translations={
     'clearBtn':'✕ Clear','input-placeholder':'Type or paste Arabic text here...',
     'combined-placeholder':'Game-ready output appears here...',
     'combined-output':'Game-ready output appears here... or paste game text and click ↑ Import to edit it',
-    'presets-bar-label':'Presets',
-    'presets-save-btn':'💾 Save','presets-export-btn':'↓ Export','presets-import-btn':'↑ Import',
+    'presets-bar-label':'Presets','preset-add-btn':'＋ Add',
+    'presets-save-btn':'💾 Save','presets-delete-btn':'🗑 Delete',
+    'presets-export-btn':'↓ Export','presets-import-btn':'↑ Import',
+    'multiStringBtn':'🔀 Multi-string: OFF',
+    'ruler-title':'Image Ruler <span class="tag">measure a text box</span>',
+    'ruler-help':'Upload or drop a screenshot, then drag the highlighted box over the text. Use zoom for detailed pixel work, arrow keys to move it, and Ctrl/Cmd + arrows to resize it. Width is the box width; height is used as the font size.',
+    'ruler-upload-label':'Upload image','ruler-clear-btn':'✕ Clear',
+    'ruler-empty':'Upload an image to begin measuring.',
+    'ruler-width-label-text':'Box width (X)','ruler-font-label-text':'Font size (Y)',
+    'ruler-use-btn':'Use once','ruler-new-btn':'Make new preset',
     'lbl-preview-fs':'FS',
     'help-title':'🛠 Arabic / Persian Text Shaper — Guide',
   },
   ar:{
     'lbl-width':'عرض الصندوق (بكسل)','lbl-size':'حجم الخط (بكسل)','lbl-sep':'الفاصل',
-    'lbl-font':'ملف الخط','lbl-upload':'رفع .ttf',
+    'lbl-font':'الخطوط المحمّلة','lbl-upload':'إضافة خطوط',
     'h-title':'مشكل النص العربي',
     'h-sub':'تشكيل فوري — انسخ النتيجة مباشرة في UABE',
     'ph-input':'الإدخال <span class="tag">نص عربي أو فارسي</span>',
@@ -737,8 +928,16 @@ const translations={
     'copyBtn':'نسخ','copyLinesBtn':'نسخ','copyFlippedBtn':'نسخ',
     'clearBtn':'✕ مسح','input-placeholder':'اكتب أو الصق النص العربي هنا...',
     'combined-placeholder':'النتيجة الجاهزة للعبة تظهر هنا...',
-    'presets-bar-label':'قوالب',
-    'presets-save-btn':'💾 حفظ','presets-export-btn':'↓ تصدير','presets-import-btn':'↑ استيراد',
+    'presets-bar-label':'قوالب','preset-add-btn':'＋ إضافة',
+    'presets-save-btn':'💾 حفظ','presets-delete-btn':'🗑 حذف',
+    'presets-export-btn':'↓ تصدير','presets-import-btn':'↑ استيراد',
+    'multiStringBtn':'متعدد النصوص: متوقف',
+    'ruler-title':'مسطرة الصورة <span class="tag">قياس صندوق النص</span>',
+    'ruler-help':'ارفع أو أسقط لقطة شاشة، ثم اسحب الصندوق المميز فوق النص. استخدم التكبير لقياس البكسلات بدقة، والأسهم لتحريكه، وCtrl/Cmd مع الأسهم لتغيير حجمه. العرض هو عرض الصندوق، والارتفاع يُستخدم كحجم الخط.',
+    'ruler-upload-label':'رفع صورة','ruler-clear-btn':'✕ مسح',
+    'ruler-empty':'ارفع صورة لبدء القياس.',
+    'ruler-width-label-text':'عرض الصندوق (X)','ruler-font-label-text':'حجم الخط (Y)',
+    'ruler-use-btn':'استخدم مرة واحدة','ruler-new-btn':'إنشاء قالب جديد',
     'lbl-preview-fs':'ح.خ',
     'help-title':'🛠 مُشكِّل النص العربي / الفارسي — دليل الاستخدام',
   }
@@ -756,10 +955,6 @@ function setLang(lang){
     else el.innerHTML=t[id];
   });
   document.querySelectorAll('span.t').forEach(s=>s.textContent=s.dataset[lang]);
-  // Generic tooltip (title) translation for any element carrying data-title-en/data-title-ar
-  document.querySelectorAll('[data-title-en]').forEach(el=>{
-    el.title=lang==='ar'?(el.dataset.titleAr||el.dataset.titleEn):el.dataset.titleEn;
-  });
   // Switch help panel language
   const helpEn=document.getElementById('help-lang-en');
   const helpAr=document.getElementById('help-lang-ar');
@@ -783,11 +978,6 @@ function setLang(lang){
   if(advBtn) advBtn.title=lang==='ar'?
     (_advanceHarakat?'تقديم الحركات مفعّل — اضغط للإيقاف':'تقديم الحركات حرفاً للأمام (للألعاب التي تُؤخر الحركات)'):
     (_advanceHarakat?'Harakat advance ON — click to disable':'Advance harakat one letter forward (for games that delay diacritics)');
-  // Update preset rename button tooltips
-  [0,1,2].forEach(i=>{
-    const rb=document.getElementById('preset-rename-btn-'+i);
-    if(rb) rb.title=lang==='ar'?'إعادة تسمية القالب':'Rename preset';
-  });
   // Update per-line copy button titles (future rows)
   document.querySelectorAll('.btn-copy-line').forEach(btn=>{
     if(btn.textContent==='⎘') btn.title=lang==='ar'?'نسخ السطر':'Copy line';
@@ -796,7 +986,285 @@ function setLang(lang){
   const fsEl=document.getElementById('fontSize');
   const pfsEl=document.getElementById('previewFS');
   if(fsEl&&pfsEl) pfsEl.value=fsEl.value;
+  // Rebuild dynamic preset slots so their labels and tooltips follow the
+  // selected language too.
+  if(typeof _buildPresetBar==='function') _buildPresetBar();
+  renderFontList();
+  updateMultiStringButton();
+  updatePresetDeleteButton();
 }
+
+let _multiStringMode=false;
+function updateMultiStringButton(){
+  const btn=document.getElementById('multiStringBtn');
+  if(!btn)return;
+  const on=_multiStringMode;
+  btn.textContent=currentLang==='ar'
+    ? (on?'متعدد النصوص: مفعّل':'متعدد النصوص: متوقف')
+    : (on?'🔀 Multi-string: ON':'🔀 Multi-string: OFF');
+  btn.classList.toggle('active-green',on);
+  btn.title=currentLang==='ar'
+    ? (on?'كل سطر إدخال يصبح سلسلة مستقلة':'اعتبر كل سطر إدخال سلسلة مستقلة')
+    : (on?'Each input line is a separate string':'Treat each input line as a separate string');
+}
+function toggleMultiString(){
+  _multiStringMode=!_multiStringMode;
+  updateMultiStringButton();
+  process();
+}
+
+let _rulerImageLoaded=false;
+let _rulerState={x:0,y:0,width:400,height:16};
+let _rulerDrag=null;
+let _rulerZoom=1;
+const _rulerZoomSteps=[0.25,0.5,0.75,1,1.25,1.5,2,3,4];
+
+// Right-click pan on ruler viewport
+let _vpPan=null;
+function startViewportPan(ev){
+  if(ev.button!==2)return; // right click only
+  ev.preventDefault();
+  const vp=document.getElementById('ruler-viewport');
+  _vpPan={startX:ev.clientX,startY:ev.clientY,scrollLeft:vp.scrollLeft,scrollTop:vp.scrollTop};
+  function onMove(e){
+    if(!_vpPan)return;
+    vp.scrollLeft=_vpPan.scrollLeft+(_vpPan.startX-e.clientX)*1.5;
+    vp.scrollTop =_vpPan.scrollTop +(_vpPan.startY-e.clientY)*1.5;
+  }
+  function onUp(){ _vpPan=null; vp.style.cursor=''; window.removeEventListener('mousemove',onMove); window.removeEventListener('mouseup',onUp); }
+  vp.style.cursor='grabbing';
+  window.addEventListener('mousemove',onMove);
+  window.addEventListener('mouseup',onUp);
+}
+
+function _rulerClamp(){
+  const img=document.getElementById('ruler-image');
+  if(!img||!img.naturalWidth)return;
+  const maxW=img.naturalWidth,maxH=img.naturalHeight;
+  _rulerState.width=Math.max(10,Math.min(maxW,Number(_rulerState.width)||10));
+  _rulerState.height=Math.max(1,Math.min(maxH,Number(_rulerState.height)||1));
+  _rulerState.x=Math.max(0,Math.min(maxW-_rulerState.width,Number(_rulerState.x)||0));
+  _rulerState.y=Math.max(0,Math.min(maxH-_rulerState.height,Number(_rulerState.y)||0));
+}
+function _rulerScale(){
+  const img=document.getElementById('ruler-image');
+  return img&&img.naturalWidth?img.getBoundingClientRect().width/img.naturalWidth:1;
+}
+function updateRulerZoomLabel(){
+  const label=document.getElementById('ruler-zoom-value');
+  if(label)label.textContent=Math.round(_rulerZoom*100)+'%';
+}
+function renderRulerZoom(){
+  const img=document.getElementById('ruler-image');
+  if(!img||!img.naturalWidth)return;
+  const vp=document.getElementById('ruler-viewport');
+  // _rulerBaseW/H = the pixel size of the image at 100% zoom (set on load)
+  const baseW=img._baseW||img.naturalWidth;
+  const baseH=img._baseH||img.naturalHeight;
+  img.style.width=Math.round(baseW*_rulerZoom)+'px';
+  img.style.height=Math.round(baseH*_rulerZoom)+'px';
+  updateRulerZoomLabel();
+  renderRuler();
+}
+function changeRulerZoom(direction){
+  const current=_rulerZoomSteps.indexOf(_rulerZoom);
+  const next=Math.max(0,Math.min(_rulerZoomSteps.length-1,current+direction));
+  _rulerZoom=_rulerZoomSteps[next];
+  renderRulerZoom();
+}
+function resetRulerZoom(){
+  _rulerZoom=1;
+  renderRulerZoom();
+}
+function renderRuler(){
+  if(!_rulerImageLoaded)return;
+  _rulerClamp();
+  const selection=document.getElementById('ruler-selection');
+  const scale=_rulerScale();
+  selection.style.left=(_rulerState.x*scale)+'px';
+  selection.style.top=(_rulerState.y*scale)+'px';
+  selection.style.width=(_rulerState.width*scale)+'px';
+  selection.style.height=(_rulerState.height*scale)+'px';
+  document.getElementById('ruler-width-label').textContent='W '+Math.round(_rulerState.width)+' px';
+  document.getElementById('ruler-height-label').textContent='FS '+Math.round(_rulerState.height)+' px';
+  document.getElementById('ruler-width-input').value=Math.round(_rulerState.width);
+  document.getElementById('ruler-font-input').value=Math.round(_rulerState.height);
+}
+function loadRulerFile(file){
+  if(!file||!file.type||!file.type.startsWith('image/')){
+    alert(currentLang==='ar'?'اختر ملف صورة صالحاً.':'Please choose a valid image file.');
+    return;
+  }
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=document.getElementById('ruler-image');
+    img.onload=()=>{
+      _rulerImageLoaded=true;
+      _rulerZoom=1;
+      _rulerState={
+        x:Math.round(img.naturalWidth*0.08),
+        y:Math.round(img.naturalHeight*0.15),
+        width:Math.min(400,img.naturalWidth),
+        height:Math.min(16,img.naturalHeight)
+      };
+      document.getElementById('ruler-empty').style.display='none';
+      document.getElementById('ruler-viewport').style.display='block';
+      // Measure the image at 100% width, then lock viewport to that size
+      const vp=document.getElementById('ruler-viewport');
+      vp.style.width='';
+      vp.style.height='';
+      img.style.width='100%';
+      img.style.height='auto';
+      requestAnimationFrame(()=>{
+        // Read actual rendered size
+        img._baseW=img.offsetWidth;
+        img._baseH=img.offsetHeight;
+        // Lock viewport to this size forever
+        vp.style.width=img._baseW+'px';
+        vp.style.height=img._baseH+'px';
+        vp.style.overflow='auto';
+        renderRulerZoom();
+      });
+      document.getElementById('ruler-selection').focus();
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function loadRulerImage(input){
+  const file=input&&input.files&&input.files[0];
+  loadRulerFile(file);
+}
+function handleRulerDrop(event){
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag-over');
+  const files=event.dataTransfer&&event.dataTransfer.files;
+  if(files&&files.length)loadRulerFile(files[0]);
+}
+function clearRulerImage(){
+  _rulerImageLoaded=false;_rulerDrag=null;_rulerZoom=1;
+  const input=document.getElementById('ruler-image-file');
+  const img=document.getElementById('ruler-image');
+  if(input)input.value='';
+  if(img){img.removeAttribute('src');img.onload=null;}
+  document.getElementById('ruler-viewport').style.display='none';
+  document.getElementById('ruler-empty').style.display='flex';
+  updateRulerZoomLabel();
+}
+function startRulerDrag(event,mode){
+  if(!_rulerImageLoaded)return;
+  event.preventDefault();event.stopPropagation();
+  const selection=document.getElementById('ruler-selection');
+  if(selection)selection.focus();
+  _rulerDrag={
+    mode,startX:event.clientX,startY:event.clientY,
+    startState:{..._rulerState},scale:_rulerScale()
+  };
+  const move=ev=>{
+    if(!_rulerDrag)return;
+    const dx=(ev.clientX-_rulerDrag.startX)/(_rulerDrag.scale||1);
+    const dy=(ev.clientY-_rulerDrag.startY)/(_rulerDrag.scale||1);
+    const start=_rulerDrag.startState;
+    if(_rulerDrag.mode==='move'){
+      _rulerState.x=start.x+dx;_rulerState.y=start.y+dy;
+    }else{
+      _rulerState.width=start.width+dx;_rulerState.height=start.height+dy;
+    }
+    renderRuler();
+  };
+  const stop=()=>{
+    _rulerDrag=null;
+    window.removeEventListener('pointermove',move);
+    window.removeEventListener('pointerup',stop);
+    window.removeEventListener('pointercancel',stop);
+  };
+  window.addEventListener('pointermove',move);
+  window.addEventListener('pointerup',stop);
+  window.addEventListener('pointercancel',stop);
+}
+function handleRulerKeydown(event){
+  if(!_rulerImageLoaded)return;
+  const key=event.key;
+  if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(key))return;
+  event.preventDefault();
+  const resize=event.ctrlKey||event.metaKey;
+  const step=resize
+    ? (event.shiftKey?50:1)   // Ctrl+Shift+Arrow=50px, Ctrl+Arrow=1px
+    : (event.shiftKey?10:1);  // Shift+Arrow=10px, Arrow=1px
+  if(resize){
+    if(key==='ArrowRight')_rulerState.width+=step;
+    if(key==='ArrowLeft')_rulerState.width-=step;
+    if(key==='ArrowDown')_rulerState.height+=step;
+    if(key==='ArrowUp')_rulerState.height-=step;
+  }else{
+    if(key==='ArrowRight')_rulerState.x+=step;
+    if(key==='ArrowLeft')_rulerState.x-=step;
+    if(key==='ArrowDown')_rulerState.y+=step;
+    if(key==='ArrowUp')_rulerState.y-=step;
+  }
+  renderRuler();
+}
+function editRulerMeasurement(kind,value){
+  if(!_rulerImageLoaded)return;
+  const n=parseInt(value,10);
+  if(!Number.isFinite(n))return;
+  if(kind==='width')_rulerState.width=n;
+  if(kind==='height')_rulerState.height=n;
+  renderRuler();
+}
+function updateRulerStatus(){
+  const status=document.getElementById('ruler-preset-status');
+  if(!status)return;
+  status.textContent=currentLang==='ar'
+    ? 'استخدم مرة واحدة يطبّق القياس دون حفظه'
+    : 'Use once applies measurements without saving them';
+}
+function _applyRulerValues(){
+  if(!_rulerImageLoaded)return false;
+  _rulerClamp();
+  const width=Math.round(_rulerState.width),fontSize=Math.round(_rulerState.height);
+  document.getElementById('boxWidth').value=width;
+  document.getElementById('fontSize').value=fontSize;
+  const previewFs=document.getElementById('previewFS');
+  if(previewFs)previewFs.value=fontSize;
+  syncWidth();
+  process();
+  return true;
+}
+function useRulerMeasurement(){
+  if(!_applyRulerValues()){
+    alert(currentLang==='ar'?'ارفع صورة أولاً لبدء القياس.':'Upload an image first to measure it.');
+    return;
+  }
+  const btn=document.getElementById('ruler-use-btn');
+  if(btn){
+    const original=btn.textContent;
+    btn.textContent=currentLang==='ar'?'✓ تم الاستخدام':'✓ Used once';
+    setTimeout(()=>{btn.textContent=original;},1600);
+  }
+}
+function makePresetFromRuler(){
+  if(!_rulerImageLoaded){
+    alert(currentLang==='ar'?'ارفع صورة أولاً لبدء القياس.':'Upload an image first to measure it.');
+    return;
+  }
+  _rulerClamp();
+  const defaultName='Ruler '+(_presets.length+1);
+  const name=prompt(currentLang==='ar'?'اسم القالب الجديد:':'Name for the new preset:',defaultName);
+  if(!name||!name.trim())return;
+  const width=Math.round(_rulerState.width),fontSize=Math.round(_rulerState.height);
+  const preset={
+    name:name.trim(),boxWidth:width,fontSize:fontSize,
+    separator:document.getElementById('separator').value,
+    fontFamily:customFontFamily,fontFileName:customFontFileName
+  };
+  _presets.push(preset);_activePreset=_presets.length-1;
+  _savePresets();_buildPresetBar();
+  document.getElementById('boxWidth').value=width;
+  document.getElementById('fontSize').value=fontSize;
+  resizePreview();process();
+}
+window.addEventListener('resize',renderRuler);
 
 const nonConn=new Set([0x0627,0x0622,0x0623,0x0625,0x0621,0x0624,0x062F,0x0630,0x0631,0x0632,0x0648,0x0629,0x0698]); // 0x0626(ئ) removed-connector; 0x0698=ژ non-connector
 // Non-joining letters (Unicode joining type U): never connect to EITHER neighbor, even though
@@ -895,64 +1363,159 @@ const MIRROR={
   '\u201C':'\u201D','\u201D':'\u201C'
 };
 
-function shapeAndReverse(text){
-  let shaped=shapeOnly(text);
-  if(_advanceHarakat) shaped=advanceHarakatStr(shaped);
+// Reverse only Arabic runs. Latin words, identifiers, markup tags, punctuation,
+// and their surrounding spaces stay anchored where the author put them. This
+// keeps localization strings such as `10_ok = <bold>مرحبا</bold>` readable.
+function reverseShapedArabicRuns(shaped){
   const chars=[...shaped];
-  const clusters=[];
+  const pieces=[];
   let i=0;
   while(i<chars.length){
     const c=chars[i], cp=c.codePointAt(0);
-    // Attach an orphan diacritic (no preceding base letter) to the previous cluster
     if(isTransparent(cp)){
-      if(clusters.length) clusters[clusters.length-1]+=c;
-      else clusters.push(c);
-      i++; continue;
-    }
-    // NOTE: `chars` here is already shapeOnly()'d, so Arabic base letters have
-    // been replaced by presentation-form codepoints — classify with
-    // isShapedArabicChar(), NOT isArLetter() (which only matches un-shaped
-    // base Arabic codepoints and would never match here).
-    if(isShapedArabicChar(cp)){
-      // Arabic letter: its own visual cluster (glyphs are placed one at a time
-      // in RTL games), absorbing any following diacritics.
-      let cluster=c; i++;
-      while(i<chars.length && isTransparent(chars[i].codePointAt(0))){
-        cluster+=chars[i]; i++;
-      }
-      clusters.push(cluster);
+      if(pieces.length&&pieces[pieces.length-1].kind==='arabic')
+        pieces[pieces.length-1].text+=c;
+      else pieces.push({kind:'space',text:c});
+      i++;
       continue;
     }
-    // A space is always its own single-char cluster — this keeps standalone
-    // punctuation (e.g. a lone "(" or ")" next to a space) eligible for the
-    // single-char mirror rule below, instead of being swallowed into a
-    // multi-char run alongside the space.
-    if(c===' '){ clusters.push(c); i++; continue; }
-    // Foreign run: a maximal run of non-Arabic, non-space characters (digits,
-    // Latin letters, punctuation/symbols) is grouped into ONE cluster.
-    // Reversing cluster *order* still repositions the whole run as a block
-    // (matching RTL/LTR embedding), but its internal reading order is
-    // preserved — otherwise English words and symbol runs like "the mime" or
-    // "54%$" would come out scrambled letter-by-letter.
+    if(isShapedArabicChar(cp)){
+      let cluster=c; i++;
+      while(i<chars.length&&isTransparent(chars[i].codePointAt(0))){
+        cluster+=chars[i]; i++;
+      }
+      pieces.push({kind:'arabic',text:cluster});
+      continue;
+    }
+    if(c===' '){
+      pieces.push({kind:'space',text:c}); i++; continue;
+    }
     let run=c; i++;
     while(i<chars.length){
       const nc=chars[i], ncp=nc.codePointAt(0);
       if(isShapedArabicChar(ncp)||isTransparent(ncp)||nc===' ') break;
       run+=nc; i++;
     }
-    clusters.push(run);
+    pieces.push({kind:'foreign',text:run});
   }
-  // Reverse cluster order; only mirror brackets/quotes on lone (single-char)
-  // clusters — a mirrored bracket inside a multi-char foreign run would
-  // corrupt it, since that run's internal order/shape is left untouched.
-  return clusters.reverse().map(cl=>{
-    const a=[...cl];
-    return a.length===1?(MIRROR[a[0]]||a[0]):cl;
-  }).join('');
+
+  const out=[];
+  let region=[];
+  const flushRegion=()=>{
+    if(!region.some(p=>p.kind==='arabic')){
+      out.push(...region.map(p=>p.text)); region=[]; return;
+    }
+    // Keep spaces at the boundary; reverse only the Arabic content and the
+    // spaces between Arabic words.
+    let start=0, end=region.length;
+    while(start<end&&region[start].kind==='space') start++;
+    while(end>start&&region[end-1].kind==='space') end--;
+    out.push(...region.slice(0,start).map(p=>p.text));
+    out.push(...region.slice(start,end).reverse().map(p=>p.text));
+    out.push(...region.slice(end).map(p=>p.text));
+    region=[];
+  };
+  for(const piece of pieces){
+    if(piece.kind==='foreign'){
+      flushRegion(); out.push(piece.text);
+    }else{
+      region.push(piece);
+    }
+  }
+  flushRegion();
+  return out.join('');
+}
+
+function shapeAndReverse(text){
+  return reverseShapedArabicRuns(shapeOnly(text));
 }
 
 let customFontFamily='Vazirmatn';
 let customFontFileName='Vazirmatn'; // human-readable name saved in presets
+let _fontId=0;
+const _loadedFonts=[{family:'Vazirmatn',fileName:'Vazirmatn'}];
+function renderFontList(){
+  const host=document.getElementById('font-list');
+  if(!host)return;
+  host.innerHTML='';
+  _loadedFonts.forEach(font=>{
+    const wrap=document.createElement('span');
+    wrap.className='font-chip-wrap';
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='font-chip'+(font.family===customFontFamily?' active':'');
+    btn.textContent=font.fileName;
+    btn.title=currentLang==='ar'?'استخدام الخط '+font.fileName:'Use '+font.fileName;
+    btn.addEventListener('click',()=>selectLoadedFont(font.family));
+    wrap.appendChild(btn);
+    if(font.family!=='Vazirmatn'){
+      const remove=document.createElement('button');
+      remove.type='button';
+      remove.className='font-remove';
+      remove.textContent='×';
+      remove.title=currentLang==='ar'?'إلغاء تحميل الخط':'Unload font';
+      remove.addEventListener('click',event=>{
+        event.stopPropagation();
+        removeLoadedFont(font.family);
+      });
+      wrap.appendChild(remove);
+    }
+    host.appendChild(wrap);
+  });
+}
+function selectLoadedFont(family){
+  const font=_loadedFonts.find(item=>item.family===family);
+  if(!font)return false;
+  customFontFamily=font.family;
+  customFontFileName=font.fileName;
+  renderFontList();
+  process();
+  return true;
+}
+function _findLoadedPresetFont(preset){
+  if(!preset)return null;
+  return _loadedFonts.find(font=>font.family===preset.fontFamily) ||
+    (preset.fontFileName&&_loadedFonts.find(font=>font.fileName===preset.fontFileName)) || null;
+}
+function loadFontFile(file){
+  return file.arrayBuffer().then(data=>{
+    const family='GameFont_'+(++_fontId);
+    const face=new FontFace(family,data);
+    return face.load().then(loaded=>{
+      document.fonts.add(loaded);
+      const font={family,fileName:file.name,face:loaded};
+      _loadedFonts.push(font);
+      return font;
+    });
+  });
+}
+function removeLoadedFont(family){
+  if(family==='Vazirmatn')return;
+  const index=_loadedFonts.findIndex(font=>font.family===family);
+  if(index<0)return;
+  const font=_loadedFonts[index];
+  if(customFontFamily===family){
+    const fallback=_loadedFonts.find(item=>item.family==='Vazirmatn')||_loadedFonts[index+1]||_loadedFonts[index-1];
+    if(fallback){
+      customFontFamily=fallback.family;
+      customFontFileName=fallback.fileName;
+    }
+  }
+  if(font.face&&document.fonts&&document.fonts.delete)document.fonts.delete(font.face);
+  _loadedFonts.splice(index,1);
+  renderFontList();
+  process();
+}
+function handleFontFiles(fileList){
+  const files=[...fileList].filter(file=>file&&/\.(ttf|otf|woff2?)$/i.test(file.name));
+  if(!files.length)return;
+  Promise.all(files.map(file=>loadFontFile(file))).then(loaded=>{
+    if(loaded.length)selectLoadedFont(loaded[loaded.length-1].family);
+  }).catch(err=>{
+    console.error('Font load failed',err);
+    alert(currentLang==='ar'?'تعذّر تحميل أحد الخطوط.':'One of the fonts could not be loaded.');
+  });
+}
 // Hidden measuring box that mirrors the visible preview's font/rendering exactly
 // (same font-family/size, same white-space:pre-wrap, no padding/border) so wrap
 // points are read directly from real browser layout instead of an approximate
@@ -1046,11 +1609,12 @@ function process(){
   // the preview itself actually wraps — separators then land in exactly the
   // same places a new line appears on screen.
   const previewWidthPx=document.getElementById('preview-text').clientWidth||maxPx;
-  const paragraphs=raw.split('\n'),wrappedLines=[];
+  const paragraphs=raw.split('\n'),wrappedParagraphs=[];
   for(const para of paragraphs){
-    if(!para.trim()){wrappedLines.push('');continue;}
-    wrappedLines.push(...domWrapLine(para,previewWidthPx,fontSize));
+    if(!para.trim()){wrappedParagraphs.push(['']);continue;}
+    wrappedParagraphs.push(domWrapLine(para,previewWidthPx,fontSize));
   }
+  const wrappedLines=wrappedParagraphs.flat();
   // orderedLines keeps blank-paragraph placeholders ('') so a blank line between
   // two paragraphs turns into an extra separator in the combined output below.
   const orderedLines=_reverseOrder ? wrappedLines.slice().reverse() : wrappedLines;
@@ -1065,14 +1629,21 @@ function process(){
     const row=document.createElement('div');row.className='line-row';
     const num=document.createElement('span');num.className='line-num';num.textContent=lineNum+++'.';
     const txt=document.createElement('span');txt.className='line-text';txt.textContent=shaped;
-    const cp=document.createElement('button');cp.className='btn-copy-line';cp.title=currentLang==='ar'?'نسخ السطر':'Copy line';cp.textContent='⎘';
+    const cp=document.createElement('button');cp.className='btn-copy-line';cp.title='Copy line';cp.textContent='⎘';
     cp.addEventListener('click',()=>copyLine(shaped,cp));
     row.appendChild(num);row.appendChild(txt);row.appendChild(cp);linesDisplay.appendChild(row);
   });
   // Build combined output from orderedLines (blanks included) so a blank paragraph
   // contributes an extra separator instead of being silently dropped.
-  const combinedParts=orderedLines.map(line=>line.trim()?shapeAndReverse(line):'');
-  document.getElementById('combined-output').value=combinedParts.join(sepDisplay);
+  const combinedParts=_multiStringMode
+    ? (_reverseOrder?wrappedParagraphs.slice().reverse():wrappedParagraphs)
+        .map(lines=>lines.map(line=>line.trim()?shapeAndReverse(line):'').join(sepDisplay))
+    : orderedLines.map(line=>line.trim()?shapeAndReverse(line):'');
+  // In multi-string mode, each original input line is a separate game string.
+  // Wrapped lines inside that string still use the configured separator.
+  document.getElementById('combined-output').value=_multiStringMode
+    ? combinedParts.join('\n')
+    : combinedParts.join(sepDisplay);
   // Reshaped & Flipped: fully shaped + char-reversed (game-ready), with line number at end
   const flippedDisplay=document.getElementById('flipped-display');
   flippedDisplay.innerHTML='';
@@ -1081,7 +1652,7 @@ function process(){
     const flipped=shapeAndReverse(line);
     const row=document.createElement('div');row.className='line-row';
     // Number goes at end (right side) to match RTL game display
-    const cp=document.createElement('button');cp.className='btn-copy-line';cp.title=currentLang==='ar'?'نسخ السطر':'Copy line';cp.textContent='⎘';
+    const cp=document.createElement('button');cp.className='btn-copy-line';cp.title='Copy line';cp.textContent='⎘';
     cp.addEventListener('click',()=>copyLine(flipped,cp));
     const txt=document.createElement('span');txt.className='line-text';
     txt.textContent=flipped;
@@ -1133,11 +1704,14 @@ document.getElementById('fontSize').addEventListener('input',function(){
 });
 document.getElementById('previewW').addEventListener('input',function(){document.getElementById('boxWidth').value=this.value;process();});
 document.getElementById('fontFile').addEventListener('change',function(e){
-  const file=e.target.files[0];if(!file)return;
-  const r=new FileReader();
-  r.onload=ev=>{new FontFace('CustomFont',ev.target.result).load().then(f=>{document.fonts.add(f);customFontFamily='CustomFont';customFontFileName=file.name;document.getElementById('font-name').textContent=file.name;process();});};
-  r.readAsArrayBuffer(file);
+  handleFontFiles(e.target.files);
+  e.target.value='';
 });
+function handleFontDrop(event){
+  event.preventDefault();
+  event.currentTarget.classList.remove('drag-over');
+  if(event.dataTransfer&&event.dataTransfer.files)handleFontFiles(event.dataTransfer.files);
+}
 function copyOutput(){
   const ta=document.getElementById('combined-output');const text=ta.value;if(!text)return;
   const btn=document.getElementById('copyBtn');
@@ -1224,14 +1798,10 @@ function toggleAdvanceHarakat(){
 }
 // Advance each diacritic one Arabic-letter FORWARD so that a game engine
 // which displays harakat one position too early shows them at the intended letter.
-// A space is a valid landing spot: if the next letter is preceded by a space,
-// the diacritic advances onto that space instead of the letter. Other
-// non-letter characters (punctuation, digits, etc.) still act as hard barriers.
-// If a trailing diacritic has no following letter or space at all (end of
-// text), a space is appended and the diacritic advances onto that new space.
+// Spaces and non-letter characters act as barriers — diacritics never cross them.
 function advanceHarakatStr(text){
   const chars=[...text];
-  // Build token stream: {kind:'letter'|'space'|'barrier', char, dias:[]}
+  // Build token stream: {kind:'letter'|'barrier', char, dias:[]}
   const tokens=[]; let i=0;
   while(i<chars.length){
     const cp=chars[i].codePointAt(0);
@@ -1243,29 +1813,23 @@ function advanceHarakatStr(text){
       i++; continue;
     }
     const isLetter=isArLetter(cp)||isShapedArabicChar(cp);
-    const kind=isLetter?'letter':(chars[i]===' '?'space':'barrier');
-    tokens.push({kind,char:chars[i],dias:[]});
+    tokens.push({kind: isLetter?'letter':'barrier', char:chars[i], dias:[]});
     i++;
   }
-  // Reconstruct: each letter token's diacritics are emitted AFTER the NEXT
-  // letter, or after the NEXT space if a space comes first. At a non-space
-  // barrier, flush any pending diacritics before it (they stay with the
-  // previous letter — barriers other than spaces are never crossed).
+  // Reconstruct: each letter token's diacritics are emitted AFTER the NEXT letter.
+  // At a barrier, flush any pending diacritics before it (they stay with the previous letter).
   const out=[]; let pendingDias=null;
   for(const tok of tokens){
     if(tok.kind==='letter'){
       out.push(tok.char);
       if(pendingDias!==null) out.push(...pendingDias);
       pendingDias=tok.dias;
-    }else if(tok.kind==='space'){
-      out.push(tok.char);
-      if(pendingDias!==null){out.push(...pendingDias);pendingDias=null;}
     }else{
       if(pendingDias!==null){out.push(...pendingDias);pendingDias=null;}
       out.push(tok.char);
     }
   }
-  if(pendingDias!==null && pendingDias.length){ out.push(' '); out.push(...pendingDias); }
+  if(pendingDias!==null) out.push(...pendingDias);
   return out.join('');
 }
 
@@ -1275,13 +1839,96 @@ const _DEFAULT_PRESETS=[
   {name:'P2',boxWidth:400,fontSize:16,separator:'\\n',fontFamily:'Vazirmatn',fontFileName:'Vazirmatn'},
   {name:'P3',boxWidth:400,fontSize:16,separator:'\\n',fontFamily:'Vazirmatn',fontFileName:'Vazirmatn'},
 ];
-let _presets=(()=>{try{const s=localStorage.getItem('shaperPresets');return s?JSON.parse(s):JSON.parse(JSON.stringify(_DEFAULT_PRESETS));}catch(e){return JSON.parse(JSON.stringify(_DEFAULT_PRESETS));}})();
+function _defaultPreset(index){
+  return {
+    name:'P'+(index+1),
+    boxWidth:400,
+    fontSize:16,
+    separator:'\\n',
+    fontFamily:'Vazirmatn',
+    fontFileName:'Vazirmatn'
+  };
+}
+function _normalizePreset(p,index){
+  const fallback=_defaultPreset(index);
+  const source=p&&typeof p==='object'?p:{};
+  const family=source.fontFamily||fallback.fontFamily;
+  return {
+    name:typeof source.name==='string'&&source.name.trim()?source.name.trim():fallback.name,
+    boxWidth:Number.isFinite(Number(source.boxWidth))?Number(source.boxWidth):fallback.boxWidth,
+    fontSize:Number.isFinite(Number(source.fontSize))?Number(source.fontSize):fallback.fontSize,
+    separator:typeof source.separator==='string'?source.separator:fallback.separator,
+    fontFamily:family,
+    fontFileName:typeof source.fontFileName==='string'&&source.fontFileName.trim()
+      ?source.fontFileName.trim():(family==='CustomFont'?'Custom font':family)
+  };
+}
+function _readPresets(){
+  try{
+    const stored=localStorage.getItem('shaperPresets');
+    if(!stored)return _DEFAULT_PRESETS.map((p,i)=>_normalizePreset(p,i));
+    const parsed=JSON.parse(stored);
+    const list=Array.isArray(parsed)?parsed:parsed&&Array.isArray(parsed.presets)?parsed.presets:null;
+    if(!list||!list.length)throw new Error('empty preset list');
+    return list.map((p,i)=>_normalizePreset(p,i));
+  }catch(e){
+    return _DEFAULT_PRESETS.map((p,i)=>_normalizePreset(p,i));
+  }
+}
+let _presets=_readPresets();
 let _activePreset=-1;
+let _presetDeleteMode=false;
+function updatePresetDeleteButton(){
+  const btn=document.getElementById('presets-delete-btn');
+  if(!btn)return;
+  btn.classList.toggle('active',_presetDeleteMode);
+  if(_presetDeleteMode){
+    btn.textContent=currentLang==='ar'?'إلغاء الحذف':'Cancel delete';
+    btn.title=currentLang==='ar'?'إلغاء وضع حذف القوالب':'Cancel preset delete mode';
+  }else{
+    btn.textContent=currentLang==='ar'?'🗑 حذف':'🗑 Delete';
+    btn.title=currentLang==='ar'?'اختر قالباً لحذفه':'Choose a preset to delete';
+  }
+}
 function _buildPresetBar(){
+  const host=document.getElementById('preset-slots');
+  if(!host)return;
+  host.innerHTML='';
   _presets.forEach((p,i)=>{
-    const btn=document.getElementById('preset-btn-'+i);
-    if(btn){btn.textContent=p.name;btn.classList.toggle('active',i===_activePreset);}
+    const slot=document.createElement('span');
+    slot.className='preset-slot';
+    const btn=document.createElement('button');
+    btn.className='preset-btn'+(i===_activePreset?' active':'');
+    btn.textContent=p.name;
+    if(_presetDeleteMode){
+      btn.classList.add('delete-target');
+      btn.title=currentLang==='ar'?'اضغط لحذف القالب':'Click to delete this preset';
+    }else{
+      btn.title=currentLang==='ar'?'تحميل القالب':'Load preset';
+    }
+    btn.addEventListener('click',()=>_presetDeleteMode?deletePreset(i):loadPreset(i));
+    const rename=document.createElement('button');
+    rename.className='preset-rename-btn';
+    rename.textContent='✎';
+    rename.title=currentLang==='ar'?'إعادة تسمية القالب':'Rename preset';
+    rename.addEventListener('click',()=>renamePreset(i));
+    rename.style.display=_presetDeleteMode?'none':'';
+    slot.appendChild(btn);slot.appendChild(rename);host.appendChild(slot);
   });
+  const add=document.getElementById('preset-add-btn');
+  if(add){
+    add.textContent=currentLang==='ar'?'＋ إضافة':'＋ Add';
+    add.title=currentLang==='ar'?'إضافة قالب':'Add preset';
+  }
+  updatePresetDeleteButton();
+  updateRulerStatus();
+}
+function _savePresets(){localStorage.setItem('shaperPresets',JSON.stringify(_presets));}
+function addPreset(){
+  _presets.push(_defaultPreset(_presets.length));
+  _activePreset=_presets.length-1;
+  _savePresets();
+  _buildPresetBar();
 }
 function loadPreset(i){
   const p=_presets[i];if(!p)return;
@@ -1291,8 +1938,13 @@ function loadPreset(i){
   document.getElementById('separator').value=p.separator!==undefined?p.separator:'\\n';
   // Sync preview FS field
   const pfsEl=document.getElementById('previewFS');if(pfsEl)pfsEl.value=p.fontSize||16;
-  // Warn if the saved font isn't currently loaded
-  if(p.fontFileName&&p.fontFileName!==customFontFileName){
+  // Automatically switch to the preset's font when it is already loaded.
+  // Older presets used the shared "CustomFont" family, so file name is also
+  // used as a backwards-compatible fallback.
+  const presetFont=_findLoadedPresetFont(p);
+  if(presetFont){
+    selectLoadedFont(presetFont.family);
+  }else if(p.fontFileName&&p.fontFileName!==customFontFileName){
     const lang=typeof currentLang!=='undefined'?currentLang:'en';
     const msg=lang==='ar'
       ?`هذا القالب يستخدم الخط "${p.fontFileName}" وهو غير محمّل حالياً (الخط الحالي: ${customFontFileName}). قم بتحميل الخط للحصول على نتائج دقيقة.`
@@ -1302,7 +1954,10 @@ function loadPreset(i){
   _buildPresetBar();syncWidth();process();
 }
 function savePreset(){
-  if(_activePreset<0){alert('Select a preset first (P1/P2/P3), then click Save.');return;}
+  if(_activePreset<0){
+    alert(currentLang==='ar'?'حدد قالباً أولاً (P1/P2/P3)، ثم اضغط حفظ.':'Select a preset first, then click Save.');
+    return;
+  }
   _presets[_activePreset]={
     name:_presets[_activePreset].name,
     boxWidth:parseInt(document.getElementById('boxWidth').value)||400,
@@ -1311,7 +1966,7 @@ function savePreset(){
     fontFamily:customFontFamily,
     fontFileName:customFontFileName,
   };
-  localStorage.setItem('shaperPresets',JSON.stringify(_presets));
+  _savePresets();
   _buildPresetBar();
   const btn=document.querySelector('.preset-save-btn');
   if(btn){const orig=btn.textContent;btn.textContent='✓ Saved!';btn.style.color='var(--success)';
@@ -1319,14 +1974,32 @@ function savePreset(){
 }
 function renamePreset(i){
   const p=_presets[i];if(!p)return;
-  const newName=prompt('Rename preset:',p.name);
-  if(newName&&newName.trim()){_presets[i].name=newName.trim();localStorage.setItem('shaperPresets',JSON.stringify(_presets));_buildPresetBar();}
+  const newName=prompt(currentLang==='ar'?'إعادة تسمية القالب:':'Rename preset:',p.name);
+  if(newName&&newName.trim()){_presets[i].name=newName.trim();_savePresets();_buildPresetBar();}
+}
+function togglePresetDeleteMode(){
+  _presetDeleteMode=!_presetDeleteMode;
+  _buildPresetBar();
+}
+function deletePreset(index){
+  if(!_presetDeleteMode||!Number.isInteger(index)||!_presets[index])return;
+  if(_presets.length===1){
+    _presetDeleteMode=false;
+    _buildPresetBar();
+    alert(currentLang==='ar'?'يجب إبقاء قالب واحد على الأقل.':'Keep at least one preset.');
+    return;
+  }
+  _presets.splice(index,1);
+  _activePreset=_activePreset===index?-1:(_activePreset>index?_activePreset-1:_activePreset);
+  _presetDeleteMode=false;
+  _savePresets();
+  _buildPresetBar();
 }
 function exportPresets(){
-  const json=JSON.stringify(_presets,null,2);
+  const json=JSON.stringify({version:1,presets:_presets},null,2);
   const a=document.createElement('a');
-  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(json);
-  a.download='shaper-presets.txt';a.click();
+  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(json);
+  a.download='shaper-presets.json';a.click();
 }
 function importPresets(input){
   const file=input.files[0];if(!file)return;
@@ -1334,17 +2007,32 @@ function importPresets(input){
   r.onload=e=>{
     try{
       const data=JSON.parse(e.target.result);
-      if(!Array.isArray(data)||data.length<1)throw new Error('bad');
-      _presets=data.slice(0,3);
-      while(_presets.length<3)_presets.push(JSON.parse(JSON.stringify(_DEFAULT_PRESETS[_presets.length])));
-      localStorage.setItem('shaperPresets',JSON.stringify(_presets));
-      _buildPresetBar();alert('Presets imported!');
+      const list=Array.isArray(data)?data:(data&&Array.isArray(data.presets)?data.presets:null);
+      if(!list||list.length<1)throw new Error('bad');
+      _presets=list.map((p,i)=>_normalizePreset(p,i));
+      _activePreset=-1;
+      _savePresets();
+      _buildPresetBar();
+      alert(currentLang==='ar'?'تم استيراد القوالب!':'Presets imported!');
     }catch(err){alert('Failed to import — make sure the file is a valid shaper preset export.');}
     input.value='';
   };
   r.readAsText(file);
 }
 _buildPresetBar(); // init on load (script is at bottom, DOM is ready)
+
+document.addEventListener('keydown',function(event){
+  const tag=event.target&&event.target.tagName;
+  if(event.ctrlKey||event.metaKey||event.altKey||event.shiftKey||
+     tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||
+     (event.target&&event.target.isContentEditable)||_presetDeleteMode)return;
+  if(!/^[0-9]$/.test(event.key))return;
+  const slot=event.key==='0'?9:Number(event.key)-1;
+  if(_presets[slot]){
+    event.preventDefault();
+    loadPreset(slot);
+  }
+});
 
 function toggleKb(){
   const panel=document.getElementById('kb-panel');
@@ -1388,38 +2076,9 @@ const UN_MIRROR={')':'(','(':')',']':'[','[':']','}':'{','{':'}','»':'«','«':
 // apart when walking already-shaped text.
 function isShapedArabicChar(cp){ return cp>=0xFB50&&cp<=0xFEFF; }
 function unshapeLine(line){
-  // Step 1: reverse clusters back (undo shapeAndReverse)
-  // Must mirror shapeAndReverse's clustering EXACTLY (Arabic letters as single
-  // clusters, everything else grouped into foreign runs), otherwise numbers
-  // and English words/symbols come back scrambled on import.
-  const chars=[...line]; const clusters=[]; let i=0;
-  while(i<chars.length){
-    const c=chars[i], cp=c.codePointAt(0);
-    if(isTransparent(cp)){
-      if(clusters.length) clusters[clusters.length-1]+=c; else clusters.push(c);
-      i++; continue;
-    }
-    if(isShapedArabicChar(cp)){
-      let cluster=c; i++;
-      while(i<chars.length && isTransparent(chars[i].codePointAt(0))){ cluster+=chars[i]; i++; }
-      clusters.push(cluster);
-      continue;
-    }
-    if(c===' '){ clusters.push(c); i++; continue; }
-    let run=c; i++;
-    while(i<chars.length){
-      const nc=chars[i], ncp=nc.codePointAt(0);
-      if(isShapedArabicChar(ncp)||isTransparent(ncp)||nc===' ') break;
-      run+=nc; i++;
-    }
-    clusters.push(run);
-  }
-  // Reverse cluster order; only un-mirror lone (single-char) clusters, matching
-  // shapeAndReverse's rule that multi-char foreign runs are never mirrored.
-  const shaped=clusters.reverse().map(cl=>{
-    const a=[...cl];
-    return a.length===1?(UN_MIRROR[a[0]]||a[0]):cl;
-  }).join('');
+  // Step 1: reverse Arabic runs back (undo shapeAndReverse). Non-Arabic
+  // localization structure remains in its original position.
+  const shaped=reverseShapedArabicRuns(line);
   // Step 2: un-shape glyphs back to base Arabic
   const out=[]; const sc=[...shaped]; let j=0;
   while(j<sc.length){
@@ -1445,9 +2104,28 @@ function importCombined(){
   // Split by the literal separator string (same as how combined was built).
   // Do NOT trim segments — meaningful leading/trailing spaces inside a line, and
   // fully-blank segments (paragraph gaps), must round-trip losslessly.
-  const lines=raw.split(sepRaw);
-  const restored=lines.map(l=>unshapeLine(l));
-  document.getElementById('input').value=restored.join('\n');
+  if(_multiStringMode){
+    // Multi-string exports use one real newline between input strings. A
+    // configured separator inside a string can either be a wrapping marker
+    // generated by the app, or literal content such as "123\n456". Treat it
+    // as a wrapping marker only when shaped Arabic exists on both sides. This
+    // removes generated wrap markers while keeping literal escape sequences
+    // such as the numeric example intact.
+    const strings=raw.split('\n');
+    const restored=strings.map(str=>{
+      const parts=sepRaw&&str.includes(sepRaw)?str.split(sepRaw):[str];
+      const hasArabic=part=>[...part].some(ch=>isShapedArabicChar(ch.codePointAt(0)));
+      const isWrapped=parts.length>1&&parts.slice(0,-1).every(hasArabic)&&parts.slice(1).every(hasArabic);
+      return isWrapped
+        ? parts.map(part=>unshapeLine(part)).join(' ')
+        : unshapeLine(str);
+    });
+    document.getElementById('input').value=restored.join('\n');
+  }else{
+    const lines=raw.split(sepRaw);
+    const restored=lines.map(l=>unshapeLine(l));
+    document.getElementById('input').value=restored.join('\n');
+  }
   _lastCursorPos=0;
   process();
   // Flash the input box green briefly
@@ -1502,7 +2180,7 @@ function insertLetter(letter){
 <div class="help-overlay" id="help-overlay" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="help-panel">
     <div class="help-header">
-      <h2 id="help-title">🛠 Arabic / Persian Text Shaper — Guide <span style="font-size:0.75rem;color:var(--muted);font-weight:400;letter-spacing:0.05em;">v2.1.0</span></h2>
+      <h2 id="help-title">🛠 Arabic / Persian Text Shaper — Guide <span style="font-size:0.75rem;color:var(--muted);font-weight:400;letter-spacing:0.05em;">v3.1.0</span></h2>
       <button class="help-close" onclick="document.getElementById('help-overlay').classList.remove('open')">✕</button>
     </div>
 
@@ -1526,7 +2204,11 @@ function insertLetter(letter){
         <p><strong>Box Width (px)</strong> — Pixel width of the in-game text box. Lines wrap to match exactly what appears in-game.</p>
         <p><strong>Font Size (px)</strong> — Must match your in-game font size for accurate wrapping.</p>
         <p><strong>Separator</strong> — Character(s) between lines in combined output. Default <strong>\n</strong>. The <strong>?</strong> button beside it opens this guide.</p>
-        <p><strong>Font File</strong> — Upload your game font (.ttf/.otf) for pixel-perfect line-break calculations.</p>
+        <p><strong>Loaded fonts</strong> — Add one or more game fonts (.ttf/.otf/.woff/.woff2). Click any loaded font in the list to make it active for preview and wrapping. You can drop several files at once, and click × to unload a custom font. The built-in Vazirmatn font cannot be unloaded.</p>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title">Image ruler</div>
+        <p>Upload or drop a screenshot at its original resolution. The <strong>−</strong>, <strong>＋</strong>, and <strong>1:1</strong> buttons zoom from 25% to 400%; the image can be scrolled inside the ruler viewport while the measurements remain in original image pixels. Drag the highlighted rectangle over the text area. Click the rectangle to focus it: arrow keys move it by 1 pixel, Shift + arrows move it by 10 pixels, and Ctrl/Cmd + arrows resize it. Its <strong>width (X)</strong> becomes the box width and its <strong>height (Y)</strong> becomes the font size. <strong>📐 Use once</strong> applies the measurement only to the current settings and does not save the active preset; <strong>Make new preset</strong> saves it as a named preset.</p>
       </div>
       <div class="help-section">
         <div class="help-section-title">Letter keyboard</div>
@@ -1537,12 +2219,16 @@ function insertLetter(letter){
         <p>Paste a previously exported game string into the <strong>Combined</strong> box, then click <strong>↑ Import</strong>. The tool reverses and un-shapes it back to readable Arabic in the Input box so you can edit and re-export.</p>
       </div>
       <div class="help-section">
+        <div class="help-section-title">Multi-string mode</div>
+        <p>Turn on <strong>Multi-string</strong> in the Combined header when each input line must remain a separate game string. Separate strings are divided by real line breaks. When importing, separators between shaped Arabic sections are recognized as generated wrap markers and removed; literal sequences such as <code>123\n456</code> stay inside the same input string. Turn it off to combine every wrapped line into one output string.</p>
+      </div>
+      <div class="help-section">
         <div class="help-section-title">⇅ Reverse line order</div>
         <p>The <strong>⇅</strong> button beside the separator field reverses the order of all output lines. When <span style="color:#4caf50;font-weight:700;">green</span>, lines run from last to first (Line 3 → Line 2 → Line 1) across the Lines, Reshaped &amp; Flipped, and Combined boxes. The Input and Preview are unaffected. Useful when your game engine reads lines bottom-up, or when a specific dialogue system expects reversed line order.</p>
       </div>
       <div class="help-section">
         <div class="help-section-title">◌ً↑ Advance harakat</div>
-        <p>The <strong>◌ً↑</strong> button (beside the ⇅ button) shifts every diacritic (حركة) one letter forward in the output string. When <span style="color:#4caf50;font-weight:700;">green</span>, the effect is active and applies to the <strong>Lines Reshaped Only</strong>, <strong>Reshaped &amp; Flipped</strong>, and <strong>Combined</strong> panels — the <strong>Preview</strong> always shows the text unshifted. Use this when your game engine renders each harakat one letter ahead of where it appears in the string — enabling this compensates by placing each diacritic after the next base letter so it displays on the correct letter in-game. A space counts as a valid landing spot too: if a word ends right after a diacritic, the diacritic advances onto the following space instead of staying stuck on the last letter. If there's no letter or space at all to advance onto (the diacritic is at the very end of the text), a space is added there and the diacritic advances onto it.</p>
+        <p>The <strong>◌ً↑</strong> button (beside the ⇅ button) shifts every diacritic (حركة) one letter forward in the output string. When <span style="color:#4caf50;font-weight:700;">green</span>, the effect is active and only applies to the <strong>Lines Reshaped Only</strong> panel. Use this when your game engine renders each harakat one letter ahead of where it appears in the string — enabling this compensates by placing each diacritic after the next base letter so it displays on the correct letter in-game.</p>
         <p><em>Example:</em> <code>عَربي</code> → <code>عرَبي</code> (fatha shifts one position later in the string, so the game renders it on ع).</p>
       </div>
       <div class="help-section">
@@ -1555,20 +2241,21 @@ function insertLetter(letter){
       </div>
       <div class="help-section">
         <div class="help-section-title">📋 Presets</div>
-        <p>Three renamable preset slots (<strong>P1 / P2 / P3</strong>) store your box width, font size, separator, and font file name so you can switch between different game text boxes instantly.</p>
+        <p>The tool starts with three renamable preset slots (<strong>P1 / P2 / P3</strong>). Each slot stores your box width, font size, separator, and font file name so you can switch between different game text boxes instantly. Click <strong>＋ Add</strong> whenever you need another slot. Number keys <strong>1–9</strong> and <strong>0</strong> load presets 1–10.</p>
         <p><strong>Load</strong> — click a preset button to load it and highlight it in green.<br>
         <strong>Save</strong> — click <strong>💾 Save</strong> to overwrite the active (green) preset with your current settings. Select a preset first, then click Save.<br>
         <strong>Rename</strong> — click the <strong>✎</strong> button next to a preset to rename it.<br>
-        <strong>Export ↓</strong> — downloads all three presets as a <code>.txt</code> file you can share or back up.<br>
+        <strong>Delete</strong> — click <strong>🗑 Delete</strong> to enter delete mode, then click the red preset button you want to remove. Click <strong>Cancel delete</strong> to leave the mode.<br>
+        <strong>Export ↓</strong> — downloads every preset currently saved as a <code>.json</code> file you can share or back up.<br>
         <strong>Import ↑</strong> — loads presets from a previously exported file.<br>
-        <em>Note:</em> if a preset was saved with a custom font that isn't currently uploaded, a warning will appear when you load it.</p>
+         <em>Note:</em> if a preset uses a font in the Loaded fonts list, that font is selected automatically. If it has not been added in this session, a warning will appear when you load the preset.</p>
       </div>
       <div class="help-section">
         <div class="help-section-title">Why not other tools?</div>
         <div class="help-competitor"><span class="ck">✦</span><p><strong>Online reshaper sites</strong> — reshape but don't reverse for Unity, no pixel line-wrap.</p></div>
         <div class="help-competitor"><span class="ck">✦</span><p><strong>Python arabic-reshaper</strong> — requires coding, no GUI, no preview.</p></div>
         <div class="help-competitor"><span class="ck">✦</span><p><strong>Unity RTL plugins (paid)</strong> — cost money, modify your project, don't work with UABE injection.</p></div>
-        <div class="help-competitor"><span class="ck">✦</span><p><strong>This tool</strong> — <span class="help-tag">Free</span> <span class="help-tag">Offline</span> · shapes + reverses + wraps + preview + Persian + harakat + two-way editing + presets · one HTML file, no install · <span style="color:var(--muted);">v2.1.0</span></p></div>
+        <div class="help-competitor"><span class="ck">✦</span><p><strong>This tool</strong> — <span class="help-tag">Free</span> <span class="help-tag">Offline</span> · shapes + reverses + wraps + preview + Persian + harakat + two-way editing + presets · one HTML file, no install · <span style="color:var(--muted);">v3.1.0</span></p></div>
       </div>
     </div>
 
@@ -1592,7 +2279,11 @@ function insertLetter(letter){
         <p><strong>عرض الصندوق (px)</strong> — عرض صندوق النص في اللعبة بالبكسل. تُقسَّم الأسطر تلقائياً لتطابق ما يظهر داخل اللعبة.</p>
         <p><strong>حجم الخط (px)</strong> — يجب أن يتطابق مع حجم الخط في اللعبة لضمان دقة كسر الأسطر.</p>
         <p><strong>الفاصل</strong> — الحرف بين الأسطر في المُدمج. الافتراضي <strong>\n</strong>. زر <strong>?</strong> بجانبه يفتح هذا الشرح.</p>
-        <p><strong>ملف الخط</strong> — حمّل خط اللعبة (.ttf/.otf) لحسابات دقيقة لكسر الأسطر.</p>
+        <p><strong>الخطوط المحمّلة</strong> — أضف خطاً أو عدة خطوط للعبة (.ttf/.otf/.woff/.woff2). اضغط على أي خط في القائمة لجعله نشطاً للمعاينة وحساب التفاف الأسطر. يمكنك إسقاط عدة ملفات دفعة واحدة، واضغط × بجانب الخط المخصص لإلغاء تحميله. لا يمكن إلغاء تحميل خط Vazirmatn المدمج.</p>
+      </div>
+      <div class="help-section">
+        <div class="help-section-title">مسطرة الصورة</div>
+        <p>ارفع أو أسقط لقطة شاشة بدقتها الأصلية. تكبّر أزرار <strong>−</strong> و<strong>＋</strong> و<strong>1:1</strong> من 25% إلى 400%، ويمكن تمرير الصورة داخل نافذة المسطرة بينما تبقى القياسات بالبكسلات الأصلية للصورة. اسحب المستطيل المميز فوق منطقة النص. اضغط المستطيل لتفعيله: تحرّكه الأسهم بكسل واحد، وتحركه Shift + الأسهم بمقدار 10 بكسلات، ويغيّر Ctrl/Cmd + الأسهم حجمه. يصبح <strong>العرض (X)</strong> عرض الصندوق، ويصبح <strong>الارتفاع (Y)</strong> حجم الخط. يطبّق <strong>استخدم مرة واحدة</strong> القياس على الإعدادات الحالية دون حفظ القالب النشط، بينما يحفظ <strong>إنشاء قالب جديد</strong> القياس كقالب باسم تختاره.</p>
       </div>
       <div class="help-section">
         <div class="help-section-title">لوحة الأحرف</div>
@@ -1603,12 +2294,16 @@ function insertLetter(letter){
         <p>الصق نصاً مُصدَّراً مسبقاً في صندوق <strong>المُدمج</strong>، ثم اضغط <strong>↑ استيراد</strong>. تقوم الأداة بعكس التشكيل وإعادة النص المقروء إلى صندوق الإدخال لتعديله وإعادة تصديره.</p>
       </div>
       <div class="help-section">
+        <div class="help-section-title">وضع متعدد النصوص</div>
+        <p>فعّل زر <strong>متعدد النصوص</strong> في رأس صندوق المُدمج عندما يجب أن يبقى كل سطر إدخال كسلسلة مستقلة في اللعبة. تُفصل السلاسل المستقلة بأسطر جديدة حقيقية. عند الاستيراد، تُعرَف الفواصل بين المقاطع العربية المُشكَّلة كفواصل التفاف أنشأتها الأداة وتُزال، بينما تبقى التسلسلات الحرفية مثل <code>123\n456</code> داخل سلسلة الإدخال نفسها. أوقفه لدمج كل الأسطر الملتفة في سلسلة إخراج واحدة.</p>
+      </div>
+      <div class="help-section">
         <div class="help-section-title">⇅ عكس ترتيب الأسطر</div>
         <p>زر <strong>⇅</strong> بجانب حقل الفاصل يعكس ترتيب جميع أسطر الناتج. عند تفعيله يصبح <span style="color:#4caf50;font-weight:700;">أخضر</span>، وتُعرض الأسطر من الأخير للأول (السطر 3 ← السطر 2 ← السطر 1) في صناديق الأسطر والمعكوس والمُدمج. صندوق الإدخال والمعاينة لا يتأثران. مفيد عندما يقرأ محرك اللعبة الأسطر من الأسفل للأعلى، أو عند نظام حوارات يتطلب ترتيباً معكوساً.</p>
       </div>
       <div class="help-section">
         <div class="help-section-title">◌ً↑ تقديم الحركات</div>
-        <p>زر <strong>◌ً↑</strong> (بجانب زر ⇅) يُقدِّم كل حركة حرفاً واحداً للأمام في سلسلة الإخراج. عند تفعيله يصبح <span style="color:#4caf50;font-weight:700;">أخضر</span>، ويُطبَّق التأثير على صناديق <strong>الأسطر المُشكَّلة فقط</strong> و<strong>المُشكَّلة والمعكوسة</strong> و<strong>المُدمج</strong> — أما <strong>المعاينة</strong> فتعرض دائماً النص دون تقديم. استخدم هذا الخيار عندما يعرض محرك اللعبة كل حركة قبل حرفها بمقدار حرف واحد — يعوّض الزر هذا التأخير بوضع الحركة بعد الحرف التالي في النص. المسافة أيضاً تُعتبر وجهة صالحة للتقديم: إذا انتهت الكلمة مباشرة بعد حركة، تتقدم الحركة إلى المسافة التالية بدلاً من أن تبقى عالقة على آخر حرف. وإذا لم يوجد حرف ولا مسافة على الإطلاق (الحركة في نهاية النص تماماً)، تتم إضافة مسافة جديدة وتقديم الحركة إليها.</p>
+        <p>زر <strong>◌ً↑</strong> (بجانب زر ⇅) يُقدِّم كل حركة حرفاً واحداً للأمام في سلسلة الإخراج. عند تفعيله يصبح <span style="color:#4caf50;font-weight:700;">أخضر</span>، ويُطبَّق التأثير على صندوق <strong>الأسطر المُشكَّلة فقط</strong>. استخدم هذا الخيار عندما يعرض محرك اللعبة كل حركة قبل حرفها بمقدار حرف واحد — يعوّض الزر هذا التأخير بوضع الحركة بعد الحرف التالي في النص.</p>
         <p><em>مثال:</em> <code>عَربي</code> ← <code>عرَبي</code> (الفتحة تتقدم موضعاً، فيُظهرها المحرك على العين كما أردنا).</p>
       </div>
       <div class="help-section">
@@ -1621,24 +2316,26 @@ function insertLetter(letter){
       </div>
       <div class="help-section">
         <div class="help-section-title">📋 القوالب (Presets)</div>
-        <p>ثلاثة قوالب قابلة للتسمية (<strong>P1 / P2 / P3</strong>) تحفظ: عرض الصندوق، وحجم الخط، والفاصل، واسم ملف الخط — للتبديل السريع بين إعدادات صناديق نصية مختلفة في اللعبة.</p>
+        <p>تبدأ الأداة بثلاثة قوالب قابلة للتسمية (<strong>P1 / P2 / P3</strong>). يحفظ كل قالب عرض الصندوق، وحجم الخط، والفاصل، واسم ملف الخط — للتبديل السريع بين إعدادات صناديق نصية مختلفة في اللعبة. اضغط <strong>＋ إضافة</strong> متى احتجت قالباً جديداً. تستخدم مفاتيح الأرقام <strong>1–9</strong> و<strong>0</strong> لتحميل القوالب 1–10.</p>
         <p><strong>تحميل</strong> — اضغط زر القالب لتحميله وإبرازه باللون الأخضر.<br>
         <strong>حفظ</strong> — اضغط <strong>💾 حفظ</strong> لحفظ الإعدادات الحالية في القالب المحدد (يجب تحديد قالب أولاً).<br>
         <strong>إعادة التسمية</strong> — زر <strong>✎</strong> بجانب كل قالب لتغيير اسمه.<br>
-        <strong>تصدير ↓</strong> — يُنزِّل القوالب الثلاثة كملف <code>.txt</code> للمشاركة أو الاحتفاظ.<br>
+         <strong>الحذف</strong> — اضغط <strong>🗑 حذف</strong> للدخول إلى وضع الحذف، ثم اضغط زر القالب الأحمر المراد حذفه. اضغط <strong>إلغاء الحذف</strong> للخروج من الوضع.<br>
+        <strong>تصدير ↓</strong> — يُنزِّل جميع القوالب المحفوظة حالياً كملف <code>.json</code> للمشاركة أو الاحتفاظ.<br>
         <strong>استيراد ↑</strong> — يُحمِّل القوالب من ملف تصدير سابق.<br>
-        <em>ملاحظة:</em> إذا كان القالب محفوظاً بخط مخصص غير محمَّل حالياً، ستظهر رسالة تنبيه عند تحميله.</p>
+         <em>ملاحظة:</em> إذا كان القالب يستخدم خطاً موجوداً في قائمة الخطوط المحمّلة فسيتم اختياره تلقائياً. إذا لم تتم إضافة الخط في هذه الجلسة، سيظهر تنبيه عند تحميل القالب.</p>
       </div>
       <div class="help-section">
         <div class="help-section-title">لماذا هذه الأداة وليس غيرها؟</div>
         <div class="help-competitor"><span class="ck">✦</span><p><strong>مواقع التشكيل الأونلاين</strong> — تُشكِّل لكن لا تعكس للـ Unity، ولا تدعم كسر الأسطر بالبكسل.</p></div>
         <div class="help-competitor"><span class="ck">✦</span><p><strong>مكتبة Python arabic-reshaper</strong> — تحتاج برمجة، لا واجهة، لا معاينة.</p></div>
         <div class="help-competitor"><span class="ck">✦</span><p><strong>إضافات Unity RTL المدفوعة</strong> — مكلفة، تعدّل مشروعك، لا تعمل مع حقن UABE المباشر.</p></div>
-        <div class="help-competitor"><span class="ck">✦</span><p><strong>هذه الأداة</strong> — <span class="help-tag">مجانية</span> <span class="help-tag">تعمل أوفلاين</span> · تشكيل + عكس + كسر أسطر + معاينة + فارسي + حركات + تعديل ثنائي الاتجاه + قوالب · ملف HTML واحد بدون تثبيت · <span style="color:var(--muted);">v2.1.0</span></p></div>
+        <div class="help-competitor"><span class="ck">✦</span><p><strong>هذه الأداة</strong> — <span class="help-tag">مجانية</span> <span class="help-tag">تعمل أوفلاين</span> · تشكيل + عكس + كسر أسطر + معاينة + فارسي + حركات + تعديل ثنائي الاتجاه + قوالب · ملف HTML واحد بدون تثبيت · <span style="color:var(--muted);">v3.1.0</span></p></div>
       </div>
     </div>
 
   </div>
 </div>
-</body>
+
+<script src="https://replit-cdn.com/replit-pill/replit-pill.global.js" data-referral-code="b73cdcsluuv6" data-repl-id="88b521ac-3a1b-4f45-8b03-4b3132ee0f18"></script></body>
 </html>
