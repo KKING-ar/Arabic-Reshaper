@@ -11,7 +11,7 @@ this video denominstrate how to use this app and its features,
 
 https://youtu.be/RramiEbmf-k?si=xl1170Dj6cbeVR9c
 
-the version used in this video is an early version pf the app, any future features added in update won't be here, they might get thier own videos IF it was advanced to use.
+the version used in this video is an early version of the app (v1.x). Features added in v2.x and v3.x are not covered — they may get their own videos if advanced enough to need one.
 
 ---
 
@@ -57,6 +57,8 @@ That's it. No coding. No modifying game files.
 - **Per-line copy** — hover any line in the Lines or Flipped panels to copy just that line
 - **Minimizable panels** — collapse any panel you don't need open to save screen space
 - **Bilingual UI** — English / عربي toggle, including every button and field tooltip
+- **Image ruler** — drop a screenshot directly into the ruler panel, drag the selection box over any text, and the measured width and height are applied to your settings automatically; supports zoom from 25% to 400%, right-click drag to pan, and keyboard shortcuts for precise control
+- **Multi-string mode** 🔀 — treat each input line as a completely independent string with its own shaping and output; useful when localizing multiple short labels at once
 - **Fully offline** — works with no internet connection; font is embedded in the app
 
 ---
@@ -83,17 +85,40 @@ That's it. No coding. No modifying game files.
 | **Font File** | Upload your game font for pixel-perfect wrapping |
 | **⇅** | Reverse line order (for bottom-up reading systems) |
 | **◌ً↑** | Advance harakat one letter forward, for engines that render diacritics one position early. Applies to the Lines, Flipped, and Combined panels — the Preview is unaffected |
+| **🔀 Multi-string** | Treat each input line as a separate independent string |
+
+---
+
+## Image Ruler
+
+Drop any screenshot into the ruler panel to measure your in-game text boxes at the pixel level.
+
+| Control | Action |
+|---------|--------|
+| **Drag image / right-click drag** | Pan the image |
+| **Arrow keys** | Move selection box 1px |
+| **Shift+Arrow** | Move selection box 10px |
+| **Ctrl+Arrow** | Resize selection box 1px |
+| **Ctrl+Shift+Arrow** | Resize selection box 50px |
+| **Zoom − / +** | Zoom image from 25% to 400% |
+| **1:1** | Reset zoom to 100% |
+| **📐 Use once** | Apply measurements without saving to a preset |
+| **Make new preset** | Save measurements as a new preset slot |
+
+At 100% zoom the image fits the panel exactly. At any other zoom scrollbars appear and you can pan with right-click drag.
 
 ---
 
 ## Presets
 
-Three renamable slots (**P1 / P2 / P3**) store your box width, font size, separator, and font file name so you can switch between different game text boxes instantly.
+Unlimited renamable slots store your box width, font size, separator, and font file name so you can switch between different game text boxes instantly. Start with three slots and add as many as you need with the **＋ Add** button.
 
-- **Load** — click a preset button to load it (highlights green)
+- **Load** — click a preset button to load it (highlights green); press **1–9** or **0** to load presets 1–10 from the keyboard
 - **Save 💾** — select a preset, then click Save to overwrite it with your current settings
+- **＋ Add** — create a new preset slot
+- **🗑 Delete** — enter delete mode, then click any preset to remove it
 - **Rename ✎** — click the pencil icon next to a preset to rename it
-- **Export ↓** — downloads all three presets as a file you can back up or share
+- **Export ↓** — downloads all presets as a file you can back up or share
 - **Import ↑** — loads presets from a previously exported file
 
 *Note: if a preset was saved with a custom font that isn't currently uploaded, a warning appears when you load it.*
